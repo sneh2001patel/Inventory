@@ -1,6 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import ToDoList, Item
+
+User = get_user_model()
 
 
 # Create your views here.
@@ -10,5 +13,7 @@ def index(response, id):
     return render(response, "main/list.html", {"ls": ls})
 
 
-def home(response):
-    return render(response, "main/home.html", {"name": "test"})
+def home(request):
+    context = {"user": request.user}
+
+    return render(request, "main/home.html", context)

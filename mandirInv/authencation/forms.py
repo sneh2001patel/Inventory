@@ -66,9 +66,10 @@ class RegisterForm(forms.ModelForm):
     A form for creating new users. Includes all the required
     fields, plus a repeated password.
     """
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-    full_name = forms.CharField(label="Name", widget=forms.CharField)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Your Password'}))
+    password_2 = forms.CharField(label='Password confirmation',
+                                widget=forms.PasswordInput(attrs={'placeholder': 'Confrim Password'}))
+    full_name = forms.CharField(label='Full Name', widget=forms.TextInput(attrs={'placeholder':'Full Name'}))
 
     class Meta:
         model = User
@@ -89,7 +90,7 @@ class RegisterForm(forms.ModelForm):
         # Save the provided password in hashed format
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])
-        user.active = False  # send an email to confrim email
+        user.active = True  # send an email to confrim email
         if commit:
             user.save()
         return user

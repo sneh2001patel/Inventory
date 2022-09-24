@@ -5,5 +5,8 @@ Home
 {%endblock%}
 
 {% block content %}
-<h1>Hello World</h1>
+{% if user.is_authenticated == True %}
+    <h1>{{user.full_name}}</h1>
+    <a class="btn btn-success" href="logout/">Logout</a>
+{% endif %}
 {% endblock %}
