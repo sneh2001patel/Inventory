@@ -5,32 +5,35 @@
 <link rel="stylesheet" href='{% static "css/login.css" %}'/>
 {% endblock %}
 
-{% block title %} Create an Account {% endblock %}
+{% block title %} Item Update {% endblock %}
 
 {% block content %}
 
 
 <div class="container my-5">
-    <h2>Create an Account</h2>
+    <h2>Item Update</h2>
 <!--<div class="circle">-->
 <!--    <i class="fa-solid fa-5x fa-lock" class="lock"></i>-->
 <!--</div>-->
 <div class="card">
 
   <div class="card-body">
-      <form method="POST">
+      <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form|crispy }}
+
           <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Register</button>
+                <button class="btn btn-outline-info" type="submit">Update Item!</button>
             </div>
       </form>
-      <p>Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+<!--    <p>Don't have an account? <a href="{% url 'register' %}">Create one</a></p>-->
+<!--    <h5 class="card-title">Special title treatment</h5>-->
+<!--    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
+<!--    <a href="#" class="btn btn-primary">Go somewhere</a>-->
   </div>
 </div>
 
 </div>
-
 
 
 {% endblock %}

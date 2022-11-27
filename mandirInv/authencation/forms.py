@@ -16,7 +16,7 @@ class UserAdminCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['full_name', 'email']
+        fields = ['full_name', 'email', 'area_incharge']
 
     def clean(self):
         '''
@@ -47,7 +47,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['full_name', 'email', 'password', 'active', 'staff', 'admin']
+        fields = ['full_name', 'email', 'password', 'active', 'staff', 'admin', 'area_incharge']
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -66,6 +66,8 @@ class RegisterForm(forms.ModelForm):
     A form for creating new users. Includes all the required
     fields, plus a repeated password.
     """
+    # email = forms.EmailField(label="Email", widget=forms.EmailField(attrs={'placeholder': 'example@mail.com'}))
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'placeholder': 'example@email.com'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Your Password'}))
     password_2 = forms.CharField(label='Password confirmation',
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Confrim Password'}))

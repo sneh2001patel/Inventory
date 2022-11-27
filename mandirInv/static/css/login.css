@@ -1,0 +1,25 @@
+.box {
+  height: 200px;
+  position: relative;
+  border: 3px solid green;
+}
+
+.circle {
+    background-color: coral;
+    height: 150px;
+    width: 150px;
+    border-radius: 100px;
+    margin: 100px;
+    left: 100px;
+}
+i {
+display: flex;
+justify-content: center;
+}
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

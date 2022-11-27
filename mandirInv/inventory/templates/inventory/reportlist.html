@@ -1,0 +1,16 @@
+{%extends 'main/base.html' %}
+
+{%block title%}
+Inventory
+{%endblock%}
+
+{% block content %}
+
+    {% for usr in users %}
+
+    <p>{{usr}}</p>
+
+    {% endfor %}
+
+</table>
+{% endblock %}

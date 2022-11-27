@@ -1,0 +1,36 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %} Report Table {% endblock %}
+{%block extraStyle%}
+<link rel="stylesheet" href='{% static "css/report_style.css" %}'/>
+
+{%endblock%}
+
+{% block content %}
+
+<div class="container1">
+    <p>{{object}}</p>
+</div>
+
+<!--<form method="POST" id='report-form' >-->
+<!--        {% csrf_token %}-->
+<!--        <fieldset class="form-group">-->
+<!--            <legend class="border-bottom mb-4">Report </legend>-->
+<!--            {{ form }}-->
+<!--        </fieldset>-->
+<!--        <div class="form-group">-->
+<!--            <button class="btn btn-primary"  id="button"  type="submit" name='report' disabled>Report</button>-->
+<!--        </div>-->
+<!--       <div class="form-group">-->
+<!--            <button class="btn btn-success" type="submit" name="perfect">Perfect </button>-->
+<!--        </div>-->
+<!--       <div class="form-group">-->
+<!--            <button class="btn btn-danger" type="submit" name="doesnotexist">Error</button>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--<button id="button" >Hello world</button>-->
+
+
+{% endblock %}
+

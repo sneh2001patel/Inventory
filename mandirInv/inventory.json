@@ -1,0 +1,274 @@
+[
+ {
+  "UID": 10,
+  "Description": "Sabha Chair (Cloth)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "CHR01",
+  "Area": "Main Entrance"
+ },
+ {
+  "UID": 11,
+  "Description": "Shoe Rack",
+  "Image": " None",
+  "Quantity": 4,
+  "Code": "RAK01",
+  "Area": "Main Entrance"
+ },
+ {
+  "UID": 12,
+  "Description": "Hanger Rack (Steel)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "RAK02",
+  "Area": "Main Entrance"
+ },
+ {
+  "UID": 13,
+  "Description": "Dining Chair (Red)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "CHR02",
+  "Area": "Waiting Lounge"
+ },
+ {
+  "UID": 14,
+  "Description": "Office Table",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "TBL01",
+  "Area": "Waiting Lounge"
+ },
+ {
+  "UID": 15,
+  "Description": "Office Coat Hanger(Wooden)",
+  "Image": "item_pics\/office coat hanger-wooden.jpg",
+  "Quantity": 1,
+  "Code": "RAK03",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 16,
+  "Description": "Office Table -with glass top",
+  "Image": "item_pics\/Office\\ table\\ with\\ glass\\ top.jpg",
+  "Quantity": 1,
+  "Code": "TBL02",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 17,
+  "Description": "Office Table ",
+  "Image": "item_pics\/Office\\ table\\ -\\ Wooden.jpg",
+  "Quantity": 1,
+  "Code": "TBL01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 18,
+  "Description": "Wooden Cabinet - 5 Drawer(Floor)",
+  "Image": "  None",
+  "Quantity": 1,
+  "Code": "CAB01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 19,
+  "Description": "Steel Cabinet - 2 Drawer",
+  "Image": "item_pics\/File\\ Cabinet\\(metal\\)-2\\ drawer.jpg",
+  "Quantity": 1,
+  "Code": "CAB02",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 20,
+  "Description": "Open Cabinet-3 shelves (Black)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "CAB03",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 21,
+  "Description": "One Door Small Cabinet",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "CAB04",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 22,
+  "Description": "Toshiba TV - 40\"( CCTV)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "TV01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 23,
+  "Description": "Insignia TV - 40\" ( CCTV)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "TV01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 24,
+  "Description": "Office Chairs (Revolving)",
+  "Image": "item_pics\/Revolving\\ chair\\ \\#1.jpg&nbsp;",
+  "Quantity": 3,
+  "Code": "CHR03",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 25,
+  "Description": "Printer-Copier-Scanner-Fax(4 in 1)-Lexmark (XM3150)",
+  "Image": "item_pics\/Printer-Canon-MF\\ 264\\ dw-image\\ class.jpg",
+  "Quantity": 1,
+  "Code": "PRN01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 26,
+  "Description": "Printer-Copier-Scanner-Fax(4 in 1)-Brother ( MFC - 8710 DW)",
+  "Image": "item_pics\/Printer-Brother-MFC\\ 8710DW.jpg",
+  "Quantity": 1,
+  "Code": "PRN02",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 27,
+  "Description": "Credit \/ Debit transaction Machine",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "CDTM01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 28,
+  "Description": "Sofa - 3 Seat (leather)",
+  "Image": "item_pics\/Sofa\\(black\\)-3seats.jpg",
+  "Quantity": 1,
+  "Code": "SOF01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 29,
+  "Description": "CPU - HP Intel core (I 7 - 6700 T @ 2.8 GHz)12 GB Ram - Pavillion",
+  "Image": "item_pics\/CPU-HP\\ pavilion\\ Desktop\\ 510-p114.jpg ",
+  "Quantity": 1,
+  "Code": "COM01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 30,
+  "Description": "Monitor - HP 27 ES ( Dsktop -QD4LDUS)",
+  "Image": "item_pics\/Monitor-HP-27es.jpg",
+  "Quantity": 1,
+  "Code": "COM02",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 31,
+  "Description": "Telephone - Norstar ( Main Line)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "TEL01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 32,
+  "Description": "Fire Extinguisher ABC Typw 5 lbs",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "FEX01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 33,
+  "Description": "Contin Quartz clock (Wall)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "CLK01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 34,
+  "Description": "DVR - 16 Channels - Lorex ( New)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "DVR01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 35,
+  "Description": "DVR - 16 Channels - LG ( Old)",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "DVR01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 36,
+  "Description": "Vtech cordless Telephone for fax - white",
+  "Image": "item_pics\/Cordless\\ phone\\ for\\ fax\\ line-Vtech.jpg",
+  "Quantity": 1,
+  "Code": "TEL02",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 37,
+  "Description": "Panasonic cordless Telephone for Vonage - Black",
+  "Image": "item_pics\/cordless\\ phone\\ for\\ Vonage\\ line-panasonic-dect\\ 6.0.jpg",
+  "Quantity": 1,
+  "Code": "TEL02",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 38,
+  "Description": "Stapler ",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "STR01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 39,
+  "Description": "Hole Punch",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "HOP01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 40,
+  "Description": "Pen\/Pencils Holder",
+  "Image": " None",
+  "Quantity": 2,
+  "Code": "PEH01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 41,
+  "Description": "First Aid Kit",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "FAK01",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 42,
+  "Description": "Wooden Cabinet - 2 Door - Wall Mounted",
+  "Image": " None",
+  "Quantity": 1,
+  "Code": "CAB05",
+  "Area": "Main Office"
+ },
+ {
+  "UID": 43,
+  "Description": "Thermal Label Printer -Dymo -450 Turbo",
+  "Image": "item_pics\/Label\\ printer-DYMO-450Turbo.jpg&nbsp;",
+  "Quantity": 1,
+  "Code": "PRN03",
+  "Area": "Main Office"
+ }
+]
