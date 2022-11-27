@@ -15,8 +15,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from authencation.views import RegisterView, LoginView, costum_logout
+from inventory.views import InventoryView, ReportTable, ReportDetailView, InventoryDetail, ReportListView, UserReport, UserAreas
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('register/', RegisterView.as_view(), name="register"),
+    path("login/", LoginView.as_view(), name="login"),
+    path('logout/', costum_logout, name='logout'),
+    path("inventory/", InventoryView.as_view(), name="inventory"),
+    path("inventory/<int:pk>/", InventoryDetail.as_view(), name="inventory-update"),
+    path("report/<str:area>", ReportTable.as_view(), name="report"),
+    # path("reportlist/", ReportListView.as_view(), name="report-list"),
+    # path("reportlist/<str:pk>/", UserReport.as_view(), name="reportuser-detail"),
+    path('report/<str:msg>/<int:pk>/', ReportDetailView.as_view(), name="report-detail"),
     path('', include("main.urls")),
+    path('areas/', UserAreas.as_view(), name='userareas')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

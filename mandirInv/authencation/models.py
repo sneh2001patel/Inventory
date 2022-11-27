@@ -1,9 +1,10 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 
+# from inventory.models import Area
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, full_name=None, password=None, is_staff=False, is_admin=False, is_active=True):
+    def create_user(self, email, area_incharge=None, full_name=None, password=None, is_staff=False, is_admin=False, is_active=True):
         if not email:
             raise ValueError("Users must have an email address.")
         if not password:
@@ -15,6 +16,7 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             full_name=full_name,
         )
+        user_obj.area_incharge = area_incharge
         user_obj.set_password(password)  # chng password from null to user choice
         user_obj.staff = is_staff
         user_obj.admin = is_admin
@@ -38,6 +40,7 @@ class User(AbstractBaseUser):
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+    area_incharge = models.CharField(max_length=300, blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
@@ -45,6 +48,11 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+    def get_area_incharge(self):
+        s = str(self.area_incharge)
+        arr = s.split(", ")
+        return arr
 
     def get_full_name(self):
         return self.email

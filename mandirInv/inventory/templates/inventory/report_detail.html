@@ -1,0 +1,97 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Report Table {% endblock %}
+{%block style%}
+<link rel="stylesheet" href='{% static "css/report_style.css" %}'/>
+
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+<link rel="stylesheet" type="text/css" href="css/allaboutmestyle.css">
+{% endblock %}
+
+{% block content %}
+<div class="wraper">
+    <div class="container">
+        <div class="main-content">
+            <div class="section1 p-30" id="Home">
+                <div class="sec-title">
+                    <!--	<div class="pg-sub-title">Furniture</div>-->
+                    <!--	<div class="pg-title">Chair</div>-->
+                </div>
+                <div class="d-flex-align-center">
+                    {% if object.image %}
+                        <div class="user-img flex-1"><img src="{{object.image.url}}"></div>
+                    {% endif %}
+                    <div class="user-profile flex-1">
+                        <div class="pro-details">
+                            {% if user.is_authenticated%}
+                                <div class="sm-text">Jay Swaminarayan, {{ user.full_name }} maharaj </div>
+                            {% else %}
+                            <div class="sm-text">Jay Swaminarayan, maharaj </div>
+                            {% endif %}
+                            <div class="name">{{object.description}}</div>
+                            <div class="role">Barcode: {{object.code}}</div>
+
+                        </div>
+                           <div class="text">Description: {{object.details}}</div>
+                        <div class="pr-list">
+                            <ul>
+                                <li><i class="fa fa-sitemap" aria-hidden="true"></i> Quantity: {{object.quantity}}
+                                    {{object.code}}
+                                </li>
+                                <!--							<li><i class="fa fa-envelope" aria-hidden="true"></i> 23 chairs</li>-->
+                                <li><i class="fa fa-map-marker" aria-hidden="true"></i> {{object.area.location}}:
+                                    {{object.area}}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="social-icons-head">
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <ul>
+
+                                    <li>
+                                        <button class="tree" type="submit" name="perfect">Perfect
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="lightblue" type="submit" id="button" name="report" disabled>Doesn't Match
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="lal" type="submit" name="doesnotexist">Delete
+                                        </button>
+                                    </li>
+
+                                </ul>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+<!--<button id="button" >Hello world</button>-->
+{% block script %}
+
+<script>
+
+    function success() {
+	 if(document.getElementById("textsend").value==="") {
+            document.getElementById('button').disabled = true;
+        } else {
+            document.getElementById('button').disabled = false;
+        }
+    }
+
+</script>
+{% endblock %}
+
