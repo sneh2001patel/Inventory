@@ -6,6 +6,8 @@
     --textcolor: #000000;
     --whitespace: #ffffff;
     --secondary: #7E7B7B;
+
+
 }
 
 * {
@@ -43,18 +45,19 @@
 .container {
     color: var(--navy);
     /* padding: 30px; */
-    margin: 8%;
+    margin: 2%;
 }
 
 h1 {
     font-size: 60px;
 }
+
 p {
     font-size: 20px;
 }
 
 .content {
-    width: 100vh;
+    width: 100vw;
     height: 100vh;
 }
 
@@ -62,12 +65,9 @@ p {
     position: absolute;
     top: 0;
     left: 0;
-    width: 35vw;
+    width: 65vw;
     height: 100vh;
-    background-color: var(--navy);
-    color:white;
-    overflow-x: hidden;
-    overflow: hidden;
+    background-color: var(--whitespace);
 }
 
 .right {
@@ -75,8 +75,11 @@ p {
     right: 0;
     top: 0;
     height: 100vh;
-    width: 65vw;
-    background-color: var(--whitespace)
+    width: 35vw;
+    background-color: var(--navy);
+    color: white;
+        overflow-x: hidden;
+        overflow: hidden;
 }
 
 .fgpwd {
@@ -84,10 +87,10 @@ p {
 }
 
 
-/* #email {
+#email {
     background: url("https://static.thenounproject.com/png/101791-200.png") no-repeat left;
     background-size: 20px;
-} */
+}
 
 
 input[type=submit],
@@ -112,7 +115,7 @@ input[type=submit]:hover {
 }
 
 .input-icons i {
-    color:var(--secondary);
+    color: var(--secondary);
     position: absolute;
 }
 

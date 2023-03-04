@@ -57,8 +57,12 @@ class UserAdminChangeForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label='Email')
-    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField(label='Email',
+                             widget=forms.TextInput(attrs={'placeholder': 'example@email.com', 'class': 'input-field'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(
+        attrs={'placeholder': 'Your Password', 'class': 'input-field'}))
+    # email = forms.EmailField(label='Email')
+    # password = forms.CharField(widget=forms.PasswordInput(attrs={'class'}))
 
 
 class RegisterForm(forms.ModelForm):
@@ -67,11 +71,15 @@ class RegisterForm(forms.ModelForm):
     fields, plus a repeated password.
     """
     # email = forms.EmailField(label="Email", widget=forms.EmailField(attrs={'placeholder': 'example@mail.com'}))
-    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'placeholder': 'example@email.com'}))
-    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Your Password'}))
+    email = forms.EmailField(label='Email',
+                             widget=forms.TextInput(attrs={'placeholder': 'example@email.com', 'class': 'input-field'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(
+        attrs={'placeholder': 'Your Password', 'class': 'input-field'}))
     password_2 = forms.CharField(label='Password confirmation',
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Confrim Password'}))
-    full_name = forms.CharField(label='Full Name', widget=forms.TextInput(attrs={'placeholder':'Full Name'}))
+                                 widget=forms.PasswordInput(
+                                     attrs={'placeholder': 'Confirm Password', 'class': 'input-field'}))
+    full_name = forms.CharField(label='Full Name',
+                                widget=forms.TextInput(attrs={'placeholder': 'Full Name', 'class': 'input-field'}))
 
     class Meta:
         model = User

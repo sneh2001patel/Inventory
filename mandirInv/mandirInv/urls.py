@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from authencation.views import RegisterView, LoginView, costum_logout
-from inventory.views import InventoryView, ReportTable, ReportDetailView, InventoryDetail, ReportListView, UserReport, UserAreas
+from inventory.views import InventoryView, ReportTable, ReportDetailView, InventoryDetail, ReportListView, UserAreas, UserReportDetails
 from django.conf import settings
 
 urlpatterns = [
@@ -28,7 +28,9 @@ urlpatterns = [
     path("inventory/", InventoryView.as_view(), name="inventory"),
     path("inventory/<int:pk>/", InventoryDetail.as_view(), name="inventory-update"),
     path("report/<str:area>", ReportTable.as_view(), name="report"),
-    # path("reportlist/", ReportListView.as_view(), name="report-list"),
+    # path('reportlist/', ReportListView.as_view(), name="report-list"),
+    path("reportlist/", ReportListView.as_view(), name="report-list"),
+    path("userreports/<int:pk>/", UserReportDetails.as_view(), name="user-reports"),
     # path("reportlist/<str:pk>/", UserReport.as_view(), name="reportuser-detail"),
     path('report/<str:msg>/<int:pk>/', ReportDetailView.as_view(), name="report-detail"),
     path('', include("main.urls")),

@@ -2,34 +2,68 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block style %}
-<link rel="stylesheet" href='{% static "css/login.css" %}'/>
+<link rel="stylesheet" href='{% static "css/register.css" %}'/>
 {% endblock %}
 
-{% block title %} Create an Account {% endblock %}
+{% block title %} INVENTORY | SIGN IN {% endblock %}
 
 {% block content %}
+    <div class="content">
 
-
-<div class="container my-5">
-    <h2>Create an Account</h2>
-<!--<div class="circle">-->
-<!--    <i class="fa-solid fa-5x fa-lock" class="lock"></i>-->
-<!--</div>-->
-<div class="card">
-
-  <div class="card-body">
-      <form method="POST">
-          {% csrf_token %}
-          {{ form|crispy }}
-          <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Register</button>
+        <div class="right">
+            <div class="centered">
+                <div class="centered">
+                    <h1>WELCOME</h1>
+                    <p>Already Have an Account?</p>
+                    <a href="{% url 'login' %}"><button class="secondary">SIGN IN</button></a>
+                </div>
             </div>
-      </form>
-      <p>Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
-  </div>
-</div>
+        </div>
+    </div>
 
-</div>
+    <div class="left">
+        <div class="container">
+            <h1>CREATE ACCOUNT</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-icons">
+                    <i class="fa fa-user fa-2x icon"></i>
+                    {{form.full_name}}
+                    <br>
+                    <i class="fa fa-envelope fa-2x icon"></i>
+                     {{form.email}}
+                    <br>
+                    <i class="fa fa-lock fa-2x icon"></i>
+                    {{form.password}}
+                    <br>
+                    <i class="fa fa-lock fa-2x icon"></i>
+                    {{form.password_2}}
+                    <input type="submit" value="LOG IN">
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!--<div class="container my-5">-->
+<!--    <h2>Create an Account</h2>-->
+<!--&lt;!&ndash;<div class="circle">&ndash;&gt;-->
+<!--&lt;!&ndash;    <i class="fa-solid fa-5x fa-lock" class="lock"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div class="card">-->
+
+<!--  <div class="card-body">-->
+<!--      <form method="POST">-->
+<!--          {% csrf_token %}-->
+<!--          {{ form|crispy }}-->
+<!--          <div class="form-group">-->
+<!--                <button class="btn btn-outline-info" type="submit">Register</button>-->
+<!--            </div>-->
+<!--      </form>-->
+<!--      <p>Already have an account? <a href="{% url 'login' %}">Sign in</a></p>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--</div>-->
 
 
 

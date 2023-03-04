@@ -1,6 +1,9 @@
+from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import UserManager
 from django.shortcuts import render
+from django.utils.datetime_safe import date
+
 from .models import Item, Report, User, Area
 # from mandirInv.mandirInv import UserManager
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
@@ -21,13 +24,22 @@ class UserAreas(View, LoginRequiredMixin):
 
 
 class ReportListView(ListView):
-    model = User
-    context_object_name = "users"
-    template_name = "inventory/reportlist.html"
-
-
-class UserReport(DetailView):
     model = Report
+    context_object_name = "reports"
+    template_name = "inventory/reportlist.html"
+    extra_context = {"show": True, "page": 3}
+    paginate_by = 5
+
+    def get_queryset(self):
+        today = date.today()
+        # return Report.objects.filter(user=usr)
+        return Report.objects.filter(date__year=today.year, date__month=today.month, date__day=today.day)
+
+
+class UserReportDetails(DetailView):
+    model = Report
+    extra_context = {"show": False}
+    template_name = "inventory/user_report_detail.html"
 
 
 class InventoryView(ListView, LoginRequiredMixin):

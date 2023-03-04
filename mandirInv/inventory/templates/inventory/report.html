@@ -16,7 +16,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title"><a href="{% url 'report-detail' result inv.uid %}">{{ inv.description }}</a></h5>
+            <h5 class="card-title"><a href="{% url 'report-detail' inv.uid %}">{{ inv.description }}</a></h5>
             <p class="card-text">{{inv.code }}</p>
             <p class="card-text">{{inv.area.location }}: {{inv.area}}</p>
             <p class="card-text">Actual: {{inv.quantity}}</p>

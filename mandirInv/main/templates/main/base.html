@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" data-joy-color-scheme="light" style="color-scheme: light;">
 <head>
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"-->
-<!--          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <link rel="stylesheet" href="c">-->
+    <link rel="stylesheet" href='{% static "css/base.css" %}'/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     {%block style%} {%endblock%}
     <title>{%block title%} Defalut {%endblock%}</title>
 </head>
 <body>
 
+{% if show %}
+    <div class="navbar">
+        <div class="input-icons">
+            <i class="bi fa-3x  bi-house{% if page == 0 %}-fill {%endif%}" id="navicon"></i>
+            <i class="bi fa-3x bi-geo-alt{% if page == 1 %}-fill {%endif%}" id="navicon"></i>
+            <i class="bi fa-3x bi-plus-circle{% if page == 2 %}-fill {%endif%}" id="navicon"></i>
+            <i class="bi fa-3x bi-book{% if page == 3 %}-fill {%endif%}" id="navicon"></i>
+            <i class="bi fa-3x bi-gear{% if page == 4 %}-fill {%endif%}" id="navicon"></i>
+            <i class="bi fa-3x bi-box-arrow-right" id="navicon"></i>
+            <div class="navdis"></div>
+        </div>
+    </div>
+{% endif %}
 {% block content %}{% endblock %}
 
 

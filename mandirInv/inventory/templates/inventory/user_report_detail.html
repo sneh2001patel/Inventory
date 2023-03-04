@@ -1,0 +1,86 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block style %}
+<link rel="stylesheet" href='{% static "css/user_report_details.css" %}'/>
+{% endblock %}
+{% block title %}INVENTORY | ITEM DETAILS {% endblock %}
+
+{% block content %}
+
+<style>
+    .bg {
+
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    /* The image used */
+    {%if object.item.image%}
+    background-image: url({{object.item.image.url}});
+    {% endif %}
+    /* Full height */
+    width: 45%;
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+</style>
+  {%if object.item.image%}
+    <div class="bg"></div>
+    <div class="split right">
+    {%else%}
+        <div>
+    {%endif%}
+        <div class="centered">
+            <h2>{{ object.item.description }}</h2><BR>
+                <i class="bi bi-person-fill fa-2x" style="display: inline-block;"></i>
+                <h3 style="display: inline-block; margin-right: 1em; text-transform: uppercase;"> {{object.user.full_name}}</h3>
+                <i class="bi bi-calendar fa-2x"></i>
+                <h3 style="display: inline-block;"> {{object.date}}</h3>
+
+
+                <br>
+                <br>
+                <br>
+
+                <h3>ACTUAL: {{object.actual}} <span style="margin-left: 4em;"> EXPECTED: {{object.expected}}</span></h3>
+            <form action="">
+
+                <div class="contents">
+                    <div class="cat">
+                        <i class="bi bi-qr-code"></i>
+                        <p class="info">Code: {{object.item.code}}</p>
+                    </div>
+                    <div class="cat">
+                        <i class="bi bi-diagram-3-fill"></i>
+                        <p class="info">Quantity: {{object.item.quantity}}</p>
+                    </div>
+                    <div class="cat">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <p class="info">{{object.item.area.location}}: {{object.item.area}}</p>
+                    </div>
+                    <br><br>
+                </div>
+                <p>Description: {{object.item.details}}</p>
+                <!-- <div class="reportbtn primary">
+                    <input type="submit" class="perfect" value="PERFECT">
+                    <input type="submit" class="notmatch" value="DOESN'T MATCH">
+                    <input type="submit" class='delete' value="DELETE">
+                </div> -->
+                <br>
+                <div class="input-icons">
+                    <!-- <i class="bi bi-diagram-3-fill fa-2x icon" style="color: var(--navy);"></i> -->
+                    <!-- <input class="input-field" type="text" placeholder="Actual Quantity"> -->
+                    <div class="reportbtn">
+                        <input type="submit" value="SUBMIT" class="submitquant">
+                        <input type="submit" value="CANCEL"
+                            style="color:var(--buttoncolor); border: 3px solid var(--buttoncolor);" class="cancelquant">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

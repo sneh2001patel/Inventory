@@ -35,7 +35,8 @@ class Item(models.Model):
 
 
 class Report(models.Model):
-    date = models.DateTimeField(auto_now_add=True)
+    uid = models.IntegerField(primary_key=True)
+    date = models.DateField(auto_now_add=True)
     actual = models.IntegerField(blank=True)
     expected = models.IntegerField()
     item = models.ForeignKey(Item, on_delete=models.CASCADE)

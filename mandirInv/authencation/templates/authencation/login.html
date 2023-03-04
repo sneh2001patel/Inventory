@@ -5,34 +5,42 @@
 <link rel="stylesheet" href='{% static "css/login.css" %}'/>
 {% endblock %}
 
-{% block title %} Login {% endblock %}
+{% block title %} INVENTORY | SIGN IN {% endblock %}
 
 {% block content %}
 
+<div class="content">
 
-<div class="container my-5">
-    <h2>Sign In</h2>
-<!--<div class="circle">-->
-<!--    <i class="fa-solid fa-5x fa-lock" class="lock"></i>-->
-<!--</div>-->
-<div class="card">
+    <div class="left">
+        <div class="centered">
+            <h1>WELCOME</h1>
+            <p>Don’t Have an Account?</p>
+            <a href="{% url 'register' %}"><button class="secondary">SIGN UP</button></a>
+        </div>
+    </div>
 
-  <div class="card-body">
-      <form method="POST">
-          {% csrf_token %}
-          {{ form|crispy }}
-          <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Login</button>
-            </div>
-      </form>
-    <p>Don't have an account? <a href="{% url 'register' %}">Create one</a></p>
-<!--    <h5 class="card-title">Special title treatment</h5>-->
-<!--    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
-<!--    <a href="#" class="btn btn-primary">Go somewhere</a>-->
-  </div>
+    <div class="right">
+        <div class="container">
+            <h1>SIGN IN</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-icons">
+                    <i class="fa fa-envelope fa-2x icon"></i>
+                     {{ form.email }}
+<!--                    <input class="input-field" type="email" placeholder="Email">-->
+                    <br>
+                    <i class="fa fa-lock fa-2x icon"></i>
+                    {{ form.password}}
+<!--                    <input class="input-field" type="password" placeholder="Password">-->
+
+                    <input type="submit" value="LOG IN">
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
-</div>
+
 
 <!--<div class="content-section">-->
 <!--        <form method="POST">-->

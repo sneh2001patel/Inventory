@@ -23,12 +23,14 @@ class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = "authencation/register.html"
     success_url = "/login/"
+    extra_context = {'show': False}
 
 
 class LoginView(FormView):
     form_class = LoginForm
     template_name = "authencation/login.html"
-    success_url = "/report"
+    success_url = "/areas/"
+    extra_context = {'show': False}
 
     def form_valid(self, form):
         request = self.request
@@ -37,7 +39,7 @@ class LoginView(FormView):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect("/report")
+            return redirect("/areas/")
 
         return super(LoginView, self).form_invalid(form)
 

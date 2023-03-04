@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --navy: #14213D;
+    --buttoncolor: #FCA311;
+    --textcolor: #000000;
+    --whitespace: #ffffff;
+    --secondary: #E5E5E5;
+
+
+}
+
+*{
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    /* font-size: 22px; */
+}
+
+.navbar {
+    top: 0;
+    height: 100em;
+    max-height: 100%;
+    padding: 75px 10px;
+    display: inline-block;
+    position: fixed;
+    background-color: var(--navy);
+    overflow-y: scroll;
+}
+
+#navicon {
+    /* margin-left: 12px; */
+    margin-bottom: 25px;
+    display: block;
+    cursor: pointer;
+    color: var(--buttoncolor)
+}
+
+.navdis {
+    padding-top: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
