@@ -12,6 +12,7 @@ from .forms import CreateReport
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 
+
 CurrentUser = get_user_model()
 
 
@@ -21,6 +22,21 @@ class UserAreas(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         arr = request.user.get_area_incharge()
         return render(request, self.template_name, {"areas": arr})
+
+
+class UserSettings(ListView):
+    model = User
+    context_object_name = "users"
+    template_name = "inventory/settings.html"
+    extra_context = {"show": True, "page": 4}
+
+
+class UserSettingsDetails(DetailView):
+    model = User
+    extra_context = {"show": False}
+    template_name = "inventory/settings-details.html"
+    pk_url_kwarg = "id"
+
 
 
 class ReportListView(ListView):

@@ -8,7 +8,6 @@ User = get_user_model()
 
 # Create your models here.
 
-
 class Area(models.Model):
     name = models.CharField(max_length=200)
     location = models.CharField(max_length=200)

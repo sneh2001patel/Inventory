@@ -41,6 +41,7 @@ class User(AbstractBaseUser):
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     area_incharge = models.CharField(max_length=300, blank=True, null=True)
+    # area_incharge = models.ManyToManyField(invmodel.Area)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
