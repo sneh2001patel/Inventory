@@ -1,7 +1,7 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 
-# from inventory.models import Area
+# from inventory.models import Area as A
 
 class UserManager(BaseUserManager):
     def create_user(self, email, area_incharge=None, full_name=None, password=None, is_staff=False, is_admin=False, is_active=True):
@@ -41,7 +41,7 @@ class User(AbstractBaseUser):
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     area_incharge = models.CharField(max_length=300, blank=True, null=True)
-    # area_incharge = models.ManyToManyField(invmodel.Area)
+    # area_incharge = models.ManyToManyField(inventory.models.Area())
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
@@ -51,9 +51,25 @@ class User(AbstractBaseUser):
         return self.email
 
     def get_area_incharge(self):
-        s = str(self.area_incharge)
-        arr = s.split(", ")
-        return arr
+        string = self.area_incharge
+        print("STRING: ", type(string))
+        val = {}
+        if string == None:
+            return val
+        else:
+            mandir = string.split("/")
+
+            for i in mandir:
+                tmp = i.split("|")
+                areas = tmp[0]
+                country = tmp[1]
+                country = country.strip()
+                areas = areas.split(",")
+                for j in range(len(areas)):
+                    areas[j] = areas[j].strip()
+                val[country] = areas
+
+            return val
 
     def get_full_name(self):
         return self.email

@@ -17,4 +17,3 @@ class CreateReport(forms.ModelForm):
     class Meta:
         model = Report
         fields = ('actual',)
-

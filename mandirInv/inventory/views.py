@@ -10,8 +10,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import CreateReport
 from django.urls import reverse_lazy
-from django.http import HttpResponse
-
+from django.http import HttpResponse, Http404
 
 CurrentUser = get_user_model()
 
@@ -31,13 +30,52 @@ class UserSettings(ListView):
     extra_context = {"show": True, "page": 4}
 
 
-class UserSettingsDetails(DetailView):
+class UserSettingsDetails(DetailView, UpdateView):
     model = User
-    extra_context = {"show": False}
+    tmp = Area.objects.all()
+    fields = ["area_incharge"]
+    extra_context = {"show": False, "areas": tmp}
     template_name = "inventory/settings-details.html"
     pk_url_kwarg = "id"
 
 
+    def form_valid(self, form, *args, **kwargs):
+        if self.request.method == 'POST':
+            loc = self.request.POST["areas"].split(",")
+            area = loc[0]
+            mandir = loc[1]
+            mandir = mandir.strip()
+            print(mandir)
+            print(area)
+
+            usr = User.objects.filter(email=self.object)[0]
+            areas = usr.get_area_incharge()
+            print(areas)
+            if mandir in areas:
+                if area not in areas[mandir]:
+                    areas[mandir].append(area)
+            else:
+                areas[mandir] = [area]
+            a = self.convert_to_area_string(areas)
+            form.instance.area_incharge = a
+            form.save()
+
+            self.success_url = "/settings/" + str(form.instance.id)
+            return super().form_valid(form)
+        return super(UserSettingsDetails, self).form_invalid(form)
+
+    def convert_to_area_string(self, json):
+        output = ""
+        count = 0
+        for i in json:
+            a = ", ".join(json[i])
+            a += " | " + i
+            if count != 0:
+                output += " / " + a
+            else:
+                output += a
+            count += 1
+        return output
 
 class ReportListView(ListView):
     model = Report
@@ -49,7 +87,7 @@ class ReportListView(ListView):
     def get_queryset(self):
         today = date.today()
         # return Report.objects.filter(user=usr)
-        return Report.objects.filter(date__year=today.year, date__month=today.month, date__day=today.day)
+        return Report.objects.all()
 
 
 class UserReportDetails(DetailView):

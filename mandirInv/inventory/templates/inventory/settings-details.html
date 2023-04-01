@@ -8,52 +8,36 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container" onload="displayAreas">
+
     <div class="main">
         <h1 style=" text-transform: uppercase;">{{object.full_name}}</h1>
         <i class="fa fa-2x fa-envelope icon"></i>
         <h2>{{object.email}}</h2>
-            {{object.area_incharge}}
+
             <br>
             <br>
             <div class="flex-container">
-
                 <div class="flex-child magenta">
-                    <div class="locations-in" >
-                        <i class="bi bi-building-fill"></i>
-                        <p>America Mandir</p>
-                        <i style="float: right; cursor: pointer;" class="bi bi-caret-down-fill"></i>
-                    </div>
-                    <div class="locations-in option" >
-                        <i class="bi bi-geo-alt-fill"></i>
-                        <p>Hall 1</p>
-                    </div>
-                    <div class="locations-in option" style="background-color: white;">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        <p>Hall 1</p>
-                    </div>
-                    <div class="locations-in option">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        <p>Hall 1</p>
-                    </div>
+                    <div id="demo" style="display=block;">
+                    </div>            
                 </div>
 
+
                 <div class="flex-child green">
+<!--                    {{form}}-->
+                <form method="post" id="task-form" onsubmit="displayAreas">
+                     {% csrf_token %}
                     <div class="custom-select" >
-                        <select>
+                        <select name="areas">
                             <option value="0">Select Area:</option>
-                            <option value="1">Hall 1, Canada Mandir</option>
-                            <option value="2">Hall 2, Canada Mandir</option>
-                            <option value="3">Main Entrance, Canada Mandir</option>
-                            <option value="4">Lounge, Canada Mandir</option>
-                            <option value="5">Hall 1, America Mandir</option>
-                            <option value="6">Hall 2, America Mandir</option>
+                            {% for area in areas%}
+                            <option value="{{area}}, {{area.location}}" id="task">{{area}}, {{area.location}}</option>
+                            {% endfor %}
                         </select>
                     </div>
-
                     <input type="submit" value="ADD AREA">
-
-
+                </form>
                 </div>
 
             </div>
@@ -150,4 +134,68 @@
     then close all select boxes:*/
     document.addEventListener("click", closeAllSelect);
 </script>
+
+<script>
+    function displayAreas() {
+        var areas = '{{ object.area_incharge }}';
+        if (areas != "None") {
+            var mandirs = areas.split("/");
+            let countries = []
+            for (var i = 0; i < mandirs.length; i++) {
+                countries.push(mandirs[i].split("|"));
+            }
+            for (var i = 0; i < countries.length; i++) {
+                countries[i][0] = countries[i][0].split(", ");
+            }
+            var demo = document.getElementById("demo");
+            console.log(countries[0][0]);
+
+            for (var i = 0; i < countries.length; i++) {
+                if (i != 0) {
+                    demo.innerHTML += "<br>";
+                }
+                demo.innerHTML += "<div class='locations-in' ><i class='bi bi-building-fill' ></i > <p>" + countries[i][1] +  "</p>" +
+                                    "<i style='float: right; cursor: pointer;' onclick='closeaway()' class='bi bi-caret-down-fill'></i>" +
+                                "</div>"
+                
+                for (var j = 0; j < countries[i][0].length; j++) {
+                    if (j % 2 != 0) {
+                        a = "style='background-color: white;'";
+                    } else {
+                        a = "";
+                    }
+                    demo.innerHTML += "<div class='locations-in option' id='options'"+ a +">" + 
+                        "<i class='bi bi-geo-alt-fill'></i>" + 
+                            "<p> " +  countries[i][0][j] + "</p>" +
+                            "</div>"
+                }
+            }
+
+
+            
+        }
+    }
+    function closeaway() {
+        var btn = document.querySelectorAll("[id='options']");;
+        console.log(btn);
+        for (var i = 0; i < btn.length; i++) {
+            if (btn[i].style.display ==="none") {
+                btn[i].style.display = "block";
+            } else {
+                btn[i].style.display = "none";
+            }
+
+        }
+    }
+    window.onload = displayAreas();
+
+
+
+
+
+</script>
+ <script src="https://code.jquery.com/jquery-3.5.1.js"
+          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+
 {% endblock %}
