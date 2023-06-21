@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
+from .models import Area
 
 User = get_user_model()
 
@@ -35,6 +36,15 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-admin.site.register(User, UserAdmin)
+class AreaAdmin(admin.ModelAdmin):
+    list_display = ['name', 'location']
+    list_filter = ['name', 'location']
+    search_fields = ['name']
+    ordering = ['name']
+    filter_horizontal = ()
+
+
 # Remove Group Model from admin. We're not using it.
+admin.site.register(User, UserAdmin)
+admin.site.register(Area, AreaAdmin)
 admin.site.unregister(Group)

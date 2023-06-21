@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --navy: #14213D;
+    --buttoncolor: #FCA311;
+    --textcolor: #000000;
+    --whitespace: #ffffff;
+    --secondary: #E5E5E5;
+
+
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    /* font-size: 22px; */
+}
+
+h1 {
+    font-size: 60px;
+    color: var(--navy)
+}
+
+.navbar {
+    top: 0;
+    height: 100em;
+    max-height: 100%;
+    padding: 75px 10px;
+    display: inline-block;
+    position: fixed;
+    background-color: var(--navy);
+    overflow-y: scroll;
+}
+
+#navicon {
+    /* margin-left: 12px; */
+    margin-bottom: 25px;
+    display: block;
+    cursor: pointer;
+    color: var(--buttoncolor)
+}
+
+.navdis {
+    padding-top: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.main {
+    margin: 30px;
+    margin-left: 100px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto ;
+    background-color: none;
+    padding-top: 25px;
+    column-gap: 25px;
+    row-gap: 25px;
+
+}
+
+.grid-item {
+    /* display: inline-flex; */
+    background-color: rgba(0,0,0,1);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    /* width: fit-content;
+    height: fit-content; */
+    padding: 85px;
+    padding-top: 100px;
+    text-transform: uppercase;
+    font-weight: 550;
+
+
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://heritagehallvancouver.ca/wp-content/uploads/2022/06/heritagehall-vancouver-ballroom_02-2022-e1654195993366.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.grid-item:hover {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://heritagehallvancouver.ca/wp-content/uploads/2022/06/heritagehall-vancouver-ballroom_02-2022-e1654195993366.jpg");
+    /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("heritagehall-vancouver-ballroom_02-2022-e1654195993366.jpg"); */
+        background-size: cover;
+        background-repeat: no-repeat;
+}
+
+a:link { text-decoration: none; }
+
+
+a:visited { text-decoration: none; }
+
+
+a:hover { text-decoration: none; }
+
+
+a:active { text-decoration: none; }
+
+
+
+

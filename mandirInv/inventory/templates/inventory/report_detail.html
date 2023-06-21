@@ -1,97 +1,110 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title %} Report Table {% endblock %}
-{%block style%}
-<link rel="stylesheet" href='{% static "css/report_style.css" %}'/>
-
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-<link rel="stylesheet" type="text/css" href="css/allaboutmestyle.css">
+{% block style %}
+<link rel="stylesheet" href='{% static "css/item-details.css" %}'/>
 {% endblock %}
+{% block title %} INVENTORY | {{item.description}}  {% endblock %}
 
 {% block content %}
-<div class="wraper">
-    <div class="container">
-        <div class="main-content">
-            <div class="section1 p-30" id="Home">
-                <div class="sec-title">
-                    <!--	<div class="pg-sub-title">Furniture</div>-->
-                    <!--	<div class="pg-title">Chair</div>-->
+<style>
+    .bg {
+
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+
+        /* The image used */
+            {%if item.image%}
+
+        background-image: url({{item.image.url}});
+
+            {% endif %}
+
+        /* Full height */
+        width: 45%;
+        height: 100%;
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+<div class="bg"></div>
+
+<div class="split right">
+    <div class="centered">
+        <h2 style="text-transform: uppercase;">{{item.description}}</h2>
+
+            <div class="contents">
+                <div class="cat">
+                    <i class="bi bi-qr-code"></i>
+                    <p class="info">Code: {{item.code}}</p>
                 </div>
-                <div class="d-flex-align-center">
-                    {% if object.image %}
-                        <div class="user-img flex-1"><img src="{{object.image.url}}"></div>
-                    {% endif %}
-                    <div class="user-profile flex-1">
-                        <div class="pro-details">
-                            {% if user.is_authenticated%}
-                                <div class="sm-text">Jay Swaminarayan, {{ user.full_name }} maharaj </div>
-                            {% else %}
-                            <div class="sm-text">Jay Swaminarayan, maharaj </div>
-                            {% endif %}
-                            <div class="name">{{object.description}}</div>
-                            <div class="role">Barcode: {{object.code}}</div>
+                <div class="cat">
+                    <i class="bi bi-diagram-3-fill"></i>
+                    <p class="info">Quantity: {{item.quantity}}</p>
+                </div>
+                <div class="cat">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <p class="info">{{item.area.location}}: {{item.area.name}}</p>
+                </div>
+                <br><br>
+            </div>
+            <p>Description: {{item.details}}</p>
 
-                        </div>
-                           <div class="text">Description: {{object.details}}</div>
-                        <div class="pr-list">
-                            <ul>
-                                <li><i class="fa fa-sitemap" aria-hidden="true"></i> Quantity: {{object.quantity}}
-                                    {{object.code}}
-                                </li>
-                                <!--							<li><i class="fa fa-envelope" aria-hidden="true"></i> 23 chairs</li>-->
-                                <li><i class="fa fa-map-marker" aria-hidden="true"></i> {{object.area.location}}:
-                                    {{object.area}}
-                                </li>
-                            </ul>
-                        </div>
+            <form method="post">
 
-                        <div class="social-icons-head">
-                            <form method="POST">
-                                {% csrf_token %}
-                                {{ form|crispy }}
-                                <ul>
-
-                                    <li>
-                                        <button class="tree" type="submit" name="perfect">Perfect
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="lightblue" type="submit" id="button" name="report" disabled>Doesn't Match
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="lal" type="submit" name="doesnotexist">Delete
-                                        </button>
-                                    </li>
-
-                                </ul>
-                            </form>
-                        </div>
-
-                    </div>
+                {% csrf_token %}
+            <div id="cat">
+                <input type="submit" class="createbtn perfect" name="perfect" value="PERFECT">
+                <button  class="createbtn notmatch" type="button" onclick="apear()">DOESN'T MATCH</button>
+<!--                <input type="submit" class="createbtn notmatch" value="DOESN'T MATCH" >-->
+                <input type="submit" name="doesnotexist" class="createbtn delete" value="DELETE">
+            </div>
+            <br>
+            <div class="input-icons" id="mismatch">
+                <i class="bi bi-diagram-3-fill fa-2x icon" style="color: var(--navy);"></i>
+                <input class="input-field" name="actual" type="text" placeholder="Actual Quantity">
+                <div class="reportbtn">
+                    <input type="submit" name="report" value="SUBMIT" class="submitquant submitbtn">
+                    <button style="color:var(--buttoncolor); border: 3px solid var(--buttoncolor);" class="cancelquant submitbtn" type="button" onclick="apear()">CANCEL</button>
+                    <!-- <type="submit" value="CANCEL" style="color:var(--buttoncolor); border: 3px solid var(--buttoncolor);" class="cancelquant submitbtn"> -->
                 </div>
             </div>
-
-        </div>
+        </form>
     </div>
 </div>
-{%endblock%}
 
-<!--<button id="button" >Hello world</button>-->
-{% block script %}
+{% endblock %}
+
+{%block script%}
 
 <script>
 
-    function success() {
-	 if(document.getElementById("textsend").value==="") {
-            document.getElementById('button').disabled = true;
+
+
+    function apear() {
+        var mismatch = document.getElementById("mismatch");
+        var cat = document.getElementById("cat");
+        if (window.getComputedStyle(document.querySelector('#mismatch')).display == "block") {
+            mismatch.style.display = "none";
         } else {
-            document.getElementById('button').disabled = false;
+         mismatch.style.display = "block";
         }
+
+        if (window.getComputedStyle(document.querySelector('#cat')).display == "block") {
+            cat.style.display = "none";
+        } else {
+         cat.style.display = "block";
+        }
+
+
+
+
     }
 
 </script>
-{% endblock %}
 
+{%endblock%}

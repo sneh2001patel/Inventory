@@ -15,6 +15,7 @@
         <div class="centered">
             <h1>WELCOME</h1>
             <p>Don’t Have an Account?</p>
+            <br>
             <a href="{% url 'register' %}"><button class="secondary">SIGN UP</button></a>
         </div>
     </div>
@@ -22,16 +23,37 @@
     <div class="right">
         <div class="container">
             <h1>SIGN IN</h1>
+            <br>
             <form method="post">
                 {% csrf_token %}
                 <div class="input-icons">
                     <i class="fa fa-envelope fa-2x icon"></i>
                      {{ form.email }}
+
 <!--                    <input class="input-field" type="email" placeholder="Email">-->
                     <br>
                     <i class="fa fa-lock fa-2x icon"></i>
                     {{ form.password}}
 <!--                    <input class="input-field" type="password" placeholder="Password">-->
+                    {% if form.non_field_errors %}
+                     {% for error in form.non_field_errors %}
+                       <p style="text-align: center; color: red;">**{{ error }}**</p>
+                     {% endfor %}
+                      {% endif %}
+
+                    {% if form.email %}
+                     {% for error in form.email.errors %}
+                       <p style="text-align: center; color: red;">**{{ error }}**</p>
+                     {% endfor %}
+                      {% endif %}
+
+                    {% if form.password %}
+                     {% for error in form.password.errors %}
+                       <p style="text-align: center; color: red;">**{{ error }}**</p>
+                     {% endfor %}
+                      {% endif %}
+
+
 
                     <input type="submit" value="LOG IN">
                 </div>

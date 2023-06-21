@@ -1,10 +1,23 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 
+
+class Area(models.Model):
+    name = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        unique_together = ('name', 'location',)
+
+
 # from inventory.models import Area as A
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, area_incharge=None, full_name=None, password=None, is_staff=False, is_admin=False, is_active=True):
+    def create_user(self, email, area_incharge=None, full_name=None, password=None, is_staff=False, is_admin=False,
+                    is_active=True):
         if not email:
             raise ValueError("Users must have an email address.")
         if not password:
@@ -40,8 +53,7 @@ class User(AbstractBaseUser):
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
-    area_incharge = models.CharField(max_length=300, blank=True, null=True)
-    # area_incharge = models.ManyToManyField(inventory.models.Area())
+    area_incharge = models.ManyToManyField(Area(), blank=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
@@ -51,25 +63,7 @@ class User(AbstractBaseUser):
         return self.email
 
     def get_area_incharge(self):
-        string = self.area_incharge
-        print("STRING: ", type(string))
-        val = {}
-        if string == None:
-            return val
-        else:
-            mandir = string.split("/")
-
-            for i in mandir:
-                tmp = i.split("|")
-                areas = tmp[0]
-                country = tmp[1]
-                country = country.strip()
-                areas = areas.split(",")
-                for j in range(len(areas)):
-                    areas[j] = areas[j].strip()
-                val[country] = areas
-
-            return val
+        return self.area_incharge
 
     def get_full_name(self):
         return self.email

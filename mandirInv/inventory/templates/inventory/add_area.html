@@ -1,0 +1,42 @@
+{%extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block style %}
+<link rel="stylesheet" href='{% static "css/add_area.css" %}'/>
+{% endblock %}
+
+{% block title %} INVENTORY | ADD AREA {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="main">
+        <h1 style="text-transform: uppercase;" >NEW LOCATION</h1>
+        <br>
+        <br>
+        <form action="" method="post">
+
+            {% csrf_token %}
+
+
+            <div class="input-ic">
+            <i class="bi bi-geo-alt-fill icon" style="font-size: 1.7em;"></i>
+            {{form.name}}
+               <br>
+               <br>
+            <i class="bi bi-building-fill fa-1.5x icon" style="font-size: 1.7em;"></i>
+                {{form.location}}
+            </div>
+
+            {% if form.non_field_errors %}
+             {% for error in form.non_field_errors %}
+               <p style="text-align: center; color: red;">**{{ error }}**</p>
+             {% endfor %}
+              {% endif %}
+
+            <input type="submit" name="report" value="ADD LOCATION" class="submitquant submitbtn">
+        </form>
+
+
+    </div>
+</div>
+{% endblock %}

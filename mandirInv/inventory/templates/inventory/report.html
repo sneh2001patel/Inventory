@@ -1,89 +1,47 @@
 {% extends "main/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block style %}
+<link rel="stylesheet" href='{% static "css/report_items.css" %}'/>
+{% endblock %}
 
 {% block title %} Report Table {% endblock %}
 
 {% block content %}
 
-
-<!--<form method="post" class="form-group">-->
-<!--    {% csrf_token %}-->
 <div class="container">
-    <h2>Reporting </h2>
-        <hr>
-{% for inv in items %}
-<div class="pb-3">
+    <div class="main">
+        <h1>{{area}}</h1>
+        <br>
+        {%for item in items%}
+         <div class="card" style="background-color: white;">
+                <div class="circle">
+                    <img src="https://assets.pbimgs.com/pbimgs/ab/images/dp/wcm/202251/0141/chesterfield-upholstered-sofa-1-c.jpg"
+                        alt="">
+                </div>
+                <div class="text">
+                    <h2 style="font-weight:500">{{item.code}}</h2>
+
+                    <div class="button-row">
+                        <div>
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>{{ item.area }}</p>
+                        </div>
+                        <a href="{% url 'report-detail' item.slug %}" class="report">Report</a>
+                        <a href="#" class="edit">Edit</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <br>
+        {% endfor %}
 
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"><a href="{% url 'report-detail' inv.uid %}">{{ inv.description }}</a></h5>
-            <p class="card-text">{{inv.code }}</p>
-            <p class="card-text">{{inv.area.location }}: {{inv.area}}</p>
-            <p class="card-text">Actual: {{inv.quantity}}</p>
-            <p class="card-text">{{ form.expected }}</p>
 
-
-
-        </div>
     </div>
 </div>
-{% endfor %}
-  {% if is_paginated %}
-
-      {% if page_obj.has_previous %}
-        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}"> < </a>
-      {% endif %}
-
-      {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-        {% endif %}
-      {% endfor %}
-
-      {% if page_obj.has_next %}
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}"> > </a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-      {% endif %}
-
-    {% endif %}
-</div>
-<!--    <button type="submit" class="btn btn-success">Login </button>-->
-<!--</form>-->
-
-<!--<form method="post" class="form-group">-->
-<!--  {{list }}-->
-<!--  {% csrf_token %}-->
-<!--  {{ form}}-->
-
-<!--  <button type="submit" class="btn btn-success">Submit Report </button>-->
-<!--&lt;!&ndash;    <p>Don't have an account? Create one <a href="/register">here</a></p>&ndash;&gt;-->
-
-<!--</form>-->
-
-<!--<table class="table">-->
-<!--    <tr class="thead-light">-->
-<!--&lt;!&ndash;        <th  scope="col" >UID</th>&ndash;&gt;-->
-<!--        <th  scope="col">Code</th>-->
-<!--&lt;!&ndash;        <th  scope="col">Description</th>&ndash;&gt;-->
-<!--        <th  scope="col">Quantity</th>-->
-<!--        <th  scope="col">Area</th>-->
-<!--    </tr>-->
-<!--    {% for inv in list %}-->
-<!--    <tr>-->
-<!--        <th scope="row">{{ inv.uid }}</th>-->
-<!--        <td>{{ inv.code }}</td>-->
-<!--        <td>{{ inv.description }}</td>-->
-<!--        <td>{{ inv.quantity }}</td>-->
-<!--        <td>{{ inv.area }}</td>-->
-
-<!--    </tr>-->
-<!--    {% endfor %}-->
-
-<!--</table>-->
-
-
 {% endblock %}
 

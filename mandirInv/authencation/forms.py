@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth import authenticate
 
 User = get_user_model()
 
@@ -35,6 +36,7 @@ class UserAdminCreationForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password"])
         if commit:
             user.save()
+            self.save_m2m()
         return user
 
 
@@ -61,6 +63,19 @@ class LoginForm(forms.Form):
                              widget=forms.TextInput(attrs={'placeholder': 'example@email.com', 'class': 'input-field'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(
         attrs={'placeholder': 'Your Password', 'class': 'input-field'}))
+
+    # def __init__(self, *args, **kwargs):
+    #     self.error_messages['invalid_login'] = 'Custom error'
+    #     super().__init__(*args, **kwargs)
+
+    def clean(self):
+        email_data = self.cleaned_data.get("email")
+        password_data = self.cleaned_data.get("password")
+        user = authenticate(username=email_data, password=password_data)
+
+        if user is None:
+            raise forms.ValidationError("This haribhagat does not exist: the email or the password is incorrect")
+
     # email = forms.EmailField(label='Email')
     # password = forms.CharField(widget=forms.PasswordInput(attrs={'class'}))
 
@@ -94,6 +109,7 @@ class RegisterForm(forms.ModelForm):
         password_2 = cleaned_data.get("password_2")
         if password is not None and password != password_2:
             self.add_error("password_2", "Your passwords must match")
+            raise forms.ValidationError("The two passwords do not match!")
         return cleaned_data
 
     def save(self, commit=True):
@@ -103,4 +119,5 @@ class RegisterForm(forms.ModelForm):
         user.active = True  # send an email to confrim email
         if commit:
             user.save()
+            self.save_m2m()
         return user

@@ -3,24 +3,32 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import UserManager
 from django.shortcuts import render
 from django.utils.datetime_safe import date
-
-from .models import Item, Report, User, Area
+from datetime import date
+from authencation.models import Area
+from .models import Item, Report, User, ReportTable
 # from mandirInv.mandirInv import UserManager
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import CreateReport
+from .forms import CreateReport, CreateArea
 from django.urls import reverse_lazy
 from django.http import HttpResponse, Http404
 
 CurrentUser = get_user_model()
 
 
+# TODO: Create two more pages for the user side where can add and then admin can approve the item or delete it
+# filter reports area wise and user side
+
 class UserAreas(View, LoginRequiredMixin):
     template_name = "inventory/area_in_charge.html"
 
     def get(self, request, *args, **kwargs):
         arr = request.user.get_area_incharge()
-        return render(request, self.template_name, {"areas": arr})
+        return render(request, self.template_name, {
+            "areas": arr,
+            "show": True,
+            "page": 0
+        })
 
 
 class UserSettings(ListView):
@@ -30,34 +38,51 @@ class UserSettings(ListView):
     extra_context = {"show": True, "page": 4}
 
 
+class AddItem(CreateView):
+    template_name = "inventory/add_area.html"
+    model = Area
+    form_class = CreateArea
+    extra_context = {"show": True, "page": 1}
+    success_url = "/add-item/"
+
+    def form_valid(self, form):
+        if self.request.method == 'POST':
+            name = self.request.POST["name"]
+            location = self.request.POST["location"]
+            name = name.strip()
+            location = location.strip()
+            form.instance.name = name
+            form.instance.location = location
+            return super(AddItem, self).form_valid(form)
+        return super(AddItem, self).form_invalid(form)
+
+
+
+
+
 class UserSettingsDetails(DetailView, UpdateView):
     model = User
-    tmp = Area.objects.all()
-    fields = ["area_incharge"]
-    extra_context = {"show": False, "areas": tmp}
+    areas = Area.objects.all()
+    fields = ["full_name"]
+    extra_context = {"show": False, "areas": areas}
     template_name = "inventory/settings-details.html"
     pk_url_kwarg = "id"
-
+    success_url = "/"
 
     def form_valid(self, form, *args, **kwargs):
         if self.request.method == 'POST':
-            loc = self.request.POST["areas"].split(",")
+            loc = self.request.POST["areas"].split(", ")
+            # form.clean()
+            # form.save()
+
             area = loc[0]
             mandir = loc[1]
             mandir = mandir.strip()
-            print(mandir)
-            print(area)
-
+            area = area.strip()
+            qarea = Area.objects.filter(name=area, location=mandir)[0]
             usr = User.objects.filter(email=self.object)[0]
-            areas = usr.get_area_incharge()
-            print(areas)
-            if mandir in areas:
-                if area not in areas[mandir]:
-                    areas[mandir].append(area)
-            else:
-                areas[mandir] = [area]
-            a = self.convert_to_area_string(areas)
-            form.instance.area_incharge = a
+            form.instance.area_incharge.add(qarea)
+            form.instance.full_name = usr.full_name
             form.save()
 
             self.success_url = "/settings/" + str(form.instance.id)
@@ -77,12 +102,14 @@ class UserSettingsDetails(DetailView, UpdateView):
             count += 1
         return output
 
+
 class ReportListView(ListView):
     model = Report
     context_object_name = "reports"
     template_name = "inventory/reportlist.html"
-    extra_context = {"show": True, "page": 3}
-    paginate_by = 5
+    areas = Area.objects.all()
+    extra_context = {"show": True, "page": 3, "areas": areas}
+    # paginate_by = 5
 
     def get_queryset(self):
         today = date.today()
@@ -103,7 +130,8 @@ class InventoryView(ListView, LoginRequiredMixin):
     paginate_by = 10
 
 
-class InventoryDetail(DetailView, LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class InventoryDetail(DetailView, LoginRequiredMixin, UserPassesTestMixin,
+                      UpdateView):
     model = Item
     fields = ['description', 'image', 'quantity', 'code', 'area']
     success_url = "/inventory"
@@ -124,78 +152,91 @@ class ReportTable(LoginRequiredMixin, ListView):
     model = Item
     template_name = "inventory/report.html"
     success_url = "/"
-    ordering = ['uid']
+    ordering = ['id']
     context_object_name = 'items'
     paginate_by = 5
 
     def get_queryset(self):
         try:
-            area = Area.objects.get(name=self.kwargs["area"])
+            area = Area.objects.get(name=self.kwargs["area"],
+                                    location=self.kwargs["location"])
             return Item.objects.filter(area=area)
         except:
             return Item.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(ReportTable, self).get_context_data(**kwargs)
-        # print(self.get_queryset().values("uid"))
-        result = ""
-        for i in self.get_queryset().values("uid"):
-            result += str(i["uid"]) + "_"
 
-        result = result[:-1]
-        context["result"] = result
+        context["area"] = self.kwargs["area"]
+        context["location"] = self.kwargs["location"]
+        # print(context)
 
         return context
 
 
 # [Indivual item page]
-class ReportDetailView(LoginRequiredMixin, DetailView, CreateView):
+class ReportDetailView(CreateView):
     model = Item
     form_class = CreateReport
     template_name = "inventory/report_detail.html"
 
-    def __init__(self):
-        super().__init__()
-        # a = User.objects.all()
-        # # for i in a:
-        # #     print(i)
+    def get_context_data(self, **kwargs):
+        context = super(ReportDetailView, self).get_context_data(**kwargs)
+        self.object = Item.objects.filter(slug=self.kwargs["slug"])[0]
+        context["item"] = self.object
+        return context
+
+    def find_query_index(self, query, item):
+        for i in range(len(query)):
+            if query[i] == item:
+                return i
+        return -1
 
     def form_valid(self, form, *args, **kwargs):
-
-        # Get the next item in the list
-        msg = self.kwargs["msg"].split("_")
-        pk = self.kwargs["pk"]
-        msg = [int(i) for i in msg]
-        a = msg.index(pk)
-        msg = msg[a + 1:]
-        if len(msg) <= 0:
-            self.success_url = "/report/"
-        else:
-            msg = [str(i) for i in msg]
-            s = '_'.join(msg)
-            self.success_url = "/report/" + s + "/" + msg[0]
-
-        # print("Hello World", self.kwargs)
         item = self.get_object()
-        if self.request.method == 'POST' and 'report' in self.request.POST:
-            if form.instance.actual is None:
-                return super(ReportDetailView, self).form_invalid(form)
-            form.instance.user = self.request.user
-            form.instance.item = item
-            form.instance.expected = item.quantity
+        # self.success_url = "/report/" + str(item.slug)
+        area = Area.objects.filter(name=item.area.name,
+                                   location=item.area.location)[0]
+        item_list = Item.objects.filter(area=area).order_by('id')
+        index = self.find_query_index(item_list, item)
+        vals = item_list.values()
+        n = index + 1
+        if n >= len(vals):
+            self.success_url = "/report/" + item.area.name + "/" + item.area.location
+        else:
+            slugurl = vals[n]["slug"]
+            self.success_url = "/report/" + str(slugurl)
 
-            return super().form_valid(form)
+        if self.request.method == 'POST':
+            if 'perfect' in self.request.POST:
+                form.instance.user = self.request.user
+                form.instance.item = item
+                form.instance.actual = item.quantity
+                form.instance.expected = item.quantity
+                print(date.today())
+                # report_table = ReportTable(area=area, date=date.today(), reports=[])
+                return super().form_valid(form)
+            if 'doesnotexist' in self.request.POST:
+                form.instance.user = self.request.user
+                form.instance.item = item
+                form.instance.expected = item.quantity
+                form.instance.actual = 0
+                return super().form_valid(form)
+            if 'report' in self.request.POST:
+                if form.instance.actual is None:
+                    return super(ReportDetailView, self).form_invalid(form)
+                form.instance.user = self.request.user
+                form.instance.item = item
+                form.instance.expected = item.quantity
+                return super().form_valid(form)
+        return super(ReportDetailView, self).form_invalid(form)
 
-        if self.request.method == 'POST' and 'perfect' in self.request.POST:
-            form.instance.user = self.request.user
-            form.instance.item = item
-            form.instance.actual = item.quantity
-            form.instance.expected = item.quantity
-            return super().form_valid(form)
 
-        if self.request.method == 'POST' and 'doesnotexist' in self.request.POST:
-            form.instance.user = self.request.user
-            form.instance.item = item
-            form.instance.expected = item.quantity
-            form.instance.actual = 0
-            return super().form_valid(form)
+class TestView(View):
+
+    def get(self, request):
+        text = request.GET.get("button_text")
+        print()
+        print(text)
+        print()
+        return render(request, "inventory/test.html")

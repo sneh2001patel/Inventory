@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --navy: #14213D;
+    --buttoncolor: #FCA311;
+    --textcolor: #000000;
+    --whitespace: #ffffff;
+    --secondary: #E5E5E5;
+
+
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    /* font-size: 22px; */
+}
+
+h1 {
+    font-size: 60px;
+    color: var(--navy)
+}
+
+.main {
+    margin: 30px;
+    margin-left: 100px;
+}
+
+h2 {
+    display: inline;
+    font-weight: 700;
+    font-size: 50px;
+    color: var(--navy);
+}
+
+.split {
+
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.left {
+    left: 0;
+    background-color: #111;
+}
+
+.right {
+    right: 0;
+    /* background-color: red; */
+}
+
+.centered {
+    position: absolute;
+    margin: 30px;
+
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; */
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+}
+.bg {
+
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    /* The image used */
+    background-image: url("https://assets.pbimgs.com/pbimgs/ab/images/dp/wcm/202251/0141/chesterfield-upholstered-sofa-1-c.jpg");
+
+    /* Full height */
+    width: 45%;
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.contents {
+    margin-top: 125px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cat {
+    display: block;
+}
+
+.info  {
+    display: inline-block;
+}
+
+.reportbtn {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.createbtn {
+    margin-right: 5%;
+    border: none;
+    border-radius: 15px;
+    padding: 15px 25px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px;
+    margin-top: 5%;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.submitbtn {
+    border: none;
+    border-radius: 20px;
+    padding: 15px 17px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px;
+    margin-top: 5%;
+    cursor: pointer;
+}
+
+.primary {
+    display: flex;
+}
+.perfect {
+    background-color: #75BF2B;
+}
+
+.perfect:hover {
+    background-color: #659B2E;
+}
+
+.notmatch {
+    background-color: #3580F5;
+}
+
+.notmatch:hover {
+    background-color: #2D66BF;
+}
+
+.delete {
+    background-color: #D02323;
+}
+
+.delete:hover {
+    background-color: #A22020;
+}
+
+.input-icons i {
+    color: var(--secondary);
+    position: absolute;
+}
+
+.input-icons {
+    display:none;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.icon {
+    padding: 12px;
+    min-width: 40px;
+}
+
+
+.input-field {
+    font-size: 15px;
+    border: 10px;
+    width: 90%;
+    border-radius: 20px;
+    padding: 20px;
+    padding-left: 50px;
+    /* padding-left: 25px; */
+    border: 1px solid var(--secondary);
+    /* margin-bottom: 50px; */
+    /* border: var(--secondary); */
+    /* margin-bottom: 3px; */
+}
+
+.submitquant {
+    /* padding: 100px; */
+    width: 49%;
+    background-color: var(--buttoncolor);
+}
+
+.submitquant:hover {
+    background-color: #d48a11;
+}
+
+.cancelquant {
+    /* padding: 100px; */
+    width: 49%;
+    background-color: white;
+    border: 2px solid var(--buttoncolor);
+}
+
+.cancelquant:hover {
+    background-color: var(--secondary);
+}
+
+h3 {
+    font-size: 26px;
+}
+/* input[type=submit]:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+} */

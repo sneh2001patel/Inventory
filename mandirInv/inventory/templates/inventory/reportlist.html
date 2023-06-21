@@ -10,187 +10,40 @@
     <div class="container">
         <div class="main">
             <h1>REPORT</h1>
-
-             <div class="tab">
-                <button class="tablinks" onclick="openCity(event, 'Date')"id="defaultOpen" >Date</button>
-                <button class="tablinks" onclick="openCity(event, 'Users')" >Users</button>
-            </div>
-            <div id="Date" class="tabcontent">
             <br>
-                <div class="top-row">
-                     {% if is_paginated %}
-                        {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}"><p class="nav-arrow"> < </p></a>
-                        {% endif %}
-                    {% endif %}
-                    <input type="date" id="date" class="input" name="date">
-                    {% if is_paginated %}
-                        {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}"><p class="nav-arrow" > > </p></a>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            <div class="reports">
-                {% for report in reports %}
-                <div class="card" style="{% if forloop.counter0|divisibleby:2 %}background-color: #E5E5E5;  {% else %} background-color: white; {% endif %}">
-                    <div class="circle">
-                        {% if report.item.image %}
-                            <img src="{{report.item.image.url}}" >
-                        {% else %}
-                        <img src="https://assets.pbimgs.com/pbimgs/ab/images/dp/wcm/202251/0141/chesterfield-upholstered-sofa-1-c.jpg" alt="">
-                        {%endif %}
-                    </div>
-                    <div class="text">
-                        <a href="{% url 'user-reports' report.uid %}"><h2>{{ report.item.description }}</h2></a>
-                        <div class="card-body">
-                            <i class="bi bi-geo-alt-fill"></i>
-                            <p>{{ report.item.area }}, {{ report.item.area.location }}</p>
-                        </div>
+                <div class="tab">
 
+                    {% for area in areas %}
+                    <div class="areas" onclick="displaydates('{{ area }}, {{area.location}}')">
+                        <h4> {{area}}, {{area.location}}</h4>
+                        <i class="bi bi-caret-down-fill"></i>
                     </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div id="Users" class="tabcontent">
-        <br>
-        <div class="custom-select" style="width:200px;">
-            <select>
-            <option value="0">Select Users:</option>
-            <option value="0">Ghanshyam Patel </option>
-            <option value="0">Deep Makani</option>
-            <option value="0">Preet Patel</option>
-            <option value="0">Darp Patel</option>
-            </select>
-        </div>
-            <div class="reports">
-                {% for report in reports %}
-                <div class="card" style="{% if forloop.counter0|divisibleby:2 %}background-color: #E5E5E5;  {% else %} background-color: white; {% endif %}">
-                    <div class="circle">
-                        <img src="https://assets.pbimgs.com/pbimgs/ab/images/dp/wcm/202251/0141/chesterfield-upholstered-sofa-1-c.jpg" alt="">
+                   <div class="all_dates" id="{{area}}, {{area.location}}">
                     </div>
-                    <div class="text">
-                        <h2>{{ report.item.description }}</h2>
-                        <div class="card-body">
-                            <i class="bi bi-geo-alt-fill"></i>
-                            <p>{{ report.item.area }}, {{ report.item.area.location }}</p>
-                        </div>
+                    {% endfor %}
 
-                    </div>
                 </div>
-                {% endfor %}
-            </div>
-        </div>
-
         </div>
     </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src='{% static "js/reportlist.js" %}'></script>
 <script>
+    function dates(area_date) {
+    {% for report in reports %}
+        var date = '{{ report }}'
+        var dt = new Date(date)
+        dt = dt.toLocaleDateString("en-EN", {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        })
 
-    var x, i, j, l, ll, selElmnt, a, b, c;
-        /*look for any elements with the class "custom-select":*/
-        x = document.getElementsByClassName("custom-select");
-        l = x.length;
-        for (i = 0; i < l; i++) {
-            selElmnt = x[i].getElementsByTagName("select")[0];
-            ll = selElmnt.length;
-            /*for each element, create a new DIV that will act as the selected item:*/
-            a = document.createElement("DIV");
-            a.setAttribute("class", "select-selected");
-            a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-            x[i].appendChild(a);
-            /*for each element, create a new DIV that will contain the option list:*/
-            b = document.createElement("DIV");
-            b.setAttribute("class", "select-items select-hide");
-            for (j = 1; j < ll; j++) {
-                /*for each option in the original select element,
-                create a new DIV that will act as an option item:*/
-                c = document.createElement("DIV");
-                c.innerHTML = selElmnt.options[j].innerHTML;
-                c.addEventListener("click", function (e) {
-                    /*when an item is clicked, update the original select box,
-                    and the selected item:*/
-                    var y, i, k, s, h, sl, yl;
-                    s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-                    sl = s.length;
-                    h = this.parentNode.previousSibling;
-                    for (i = 0; i < sl; i++) {
-                        if (s.options[i].innerHTML == this.innerHTML) {
-                            s.selectedIndex = i;
-                            h.innerHTML = this.innerHTML;
-                            y = this.parentNode.getElementsByClassName("same-as-selected");
-                            yl = y.length;
-                            for (k = 0; k < yl; k++) {
-                                y[k].removeAttribute("class");
-                            }
-                            this.setAttribute("class", "same-as-selected");
-                            break;
-                        }
-                    }
-                    h.click();
-                });
-                b.appendChild(c);
-            }
-            x[i].appendChild(b);
-            a.addEventListener("click", function (e) {
-                /*when the select box is clicked, close any other select boxes,
-                and open/close the current select box:*/
-                e.stopPropagation();
-                closeAllSelect(this);
-                this.nextSibling.classList.toggle("select-hide");
-                this.classList.toggle("select-arrow-active");
-            });
-        }
-        function closeAllSelect(elmnt) {
-            /*a function that will close all select boxes in the document,
-            except the current select box:*/
-            var x, y, i, xl, yl, arrNo = [];
-            x = document.getElementsByClassName("select-items");
-            y = document.getElementsByClassName("select-selected");
-            xl = x.length;
-            yl = y.length;
-            for (i = 0; i < yl; i++) {
-                if (elmnt == y[i]) {
-                    arrNo.push(i)
-                } else {
-                    y[i].classList.remove("select-arrow-active");
-                }
-            }
-            for (i = 0; i < xl; i++) {
-                if (arrNo.indexOf(i)) {
-                    x[i].classList.add("select-hide");
-                }
-            }
-        }
-        /*if the user clicks anywhere outside the select box,
-        then close all select boxes:*/
-        document.addEventListener("click", closeAllSelect);
-
-    console.log(new Date())
-    $(document).ready(function () {
-            var now = new Date();
-            var day = ("0" + now.getDate()).slice(-2);
-            var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
-            var today = now.getFullYear() + "-" + (month) + "-" + (day);
-            $('#date').val(today);
-        });
-    function openCity(evt, cityName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-
-    // Get the element with id="defaultOpen" and click on it
-    document.getElementById("defaultOpen").click();
+         area_date.innerHTML +=
+                ' <div class="dates unopened">' +
+                '<h5>'+ dt +'</h5>' +
+                '</div>';
+    {% endfor %}
+}
 </script>
 
 

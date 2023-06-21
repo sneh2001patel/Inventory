@@ -1,19 +1,26 @@
 {%extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
 
-{%block title%}
-Areas
-{%endblock%}
+{% block style %}
+<link rel="stylesheet" href='{% static "css/areas_incharge.css" %}'/>
+{% endblock %}
 
+{% block title %} INVENTORY | AREAS {% endblock %}
 {% block content %}
 <div class="container">
-<h2> Areas </h2>
-
- {% for i in areas  %}
-        <div class="card">
-        <div class="card-body">
-            <a href="{% url 'report' i %}"> {{ i }}</a>
-        </div>
-        </div>
-    {% endfor %}
+    <div class="main">
+        <h1>AREA</h1>
+         <div class="grid-container">
+             {% for area in areas.all %}
+             <a href="{% url 'report' area.name area.location %}">
+              <div class="grid-item">
+                    <p>{{area.name}}</p>
+                    <p>{{area.location}}</p>
+                </div>
+             </a>
+             {% endfor %}
+            </div>
+    </div>
 </div>
 {% endblock %}

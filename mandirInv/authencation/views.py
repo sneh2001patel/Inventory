@@ -40,7 +40,7 @@ class LoginView(FormView):
         if user is not None:
             login(request, user)
             return redirect("/areas/")
-
+        print("ERRORS: ", super(LoginView, self).form_invalid(form))
         return super(LoginView, self).form_invalid(form)
 
 
