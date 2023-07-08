@@ -116,21 +116,22 @@ class ReportListView(View):
         return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
     def get(self, request):
-        self.extra_context = {"show": True, "page": 3, "areas": self.areas}
-        if self.is_ajax(request=request):
-            text = request.GET.get("btn_txt")
-            area_txt = text.strip()
-            area_txt = area_txt.split(", ")
-            a = Area.objects.filter(name=area_txt[0], location=area_txt[1])[0]
-            print(a)
-            data = RT.objects.filter(area=a)
-            print(data)
-            data_serial = serializers.serialize('json', data)
-            # print(data_serial)
-            # print(data_dates)
-            # data_dates = serializers.serialize('json', data_dates)
-            return JsonResponse(data_serial, safe=False)
-        return render(request, "inventory/reportlist.html", self.extra_context)
+        reports = Report.objects.all()
+        self.extra_context = {"show": True, "page": 3, "areas": self.areas, "reports": reports}
+        # if self.is_ajax(request=request):
+        #     text = request.GET.get("btn_txt")
+        #     area_txt = text.strip()
+        #     area_txt = area_txt.split(", ")
+        #     a = Area.objects.filter(name=area_txt[0], location=area_txt[1])[0]
+        #     print(a)
+        #     data = RT.objects.filter(area=a)
+        #     print(data)
+        #     data_serial = serializers.serialize('json', data)
+        #     # print(data_serial)
+        #     # print(data_dates)
+        #     # data_dates = serializers.serialize('json', data_dates)
+        #     return JsonResponse(data_serial, safe=False)
+        return render(request, self.template_name, self.extra_context)
 
 
 class UserReportDetails(DetailView):
