@@ -1,0 +1,82 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block style %}
+<link rel="stylesheet" href='{% static "css/add_item.css" %}'/>
+{% endblock %}
+{% block title %}INVENTORY | REPORT {% endblock %}
+
+{% block content %}
+
+  <div class="container">
+        <div class="main">
+            <h1 style="text-transform: uppercase;">New Item</h1>
+            <br>
+            <br>
+
+            <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                  <div class="split left">
+
+
+                <div id="contain">
+                        <!-- <img src="20230222174843_IMG_3944.JPG" alt="Avatar" class="image"> -->
+                        <div id="overlay">
+                            <div class="image-upload">
+                                <label for="imgInp">
+                                        <i class="bi bi-upload" id="i" ></i>
+                                </label>
+                                {{form.image}}
+<!--                                <input type="file" id="imgInp" onchange="readURL(this);">-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <form action="">
+                         <div class="fill">
+                            <img src="heritagehall-vancouver-ballroom_02-2022-e1654195993366.jpg" alt="" />
+                        </div>
+                        <div class="image-upload">
+                            <label for="imgInp">
+                                <i class="bi bi-upload fa-5x" style="color: red;  cursor: pointer;"></i>
+                            </label>
+                            <input id="imgInp" type="file" onload="apear()" /> -->
+                            <!-- <img id="blah" src="https://ichef.bbci.co.uk/news/640/cpsprodpb/37B5/production/_89716241_thinkstockphotos-523060154.jpg" alt="your image" />
+                        </div> -->
+                    <!-- </form> -->
+
+
+            </div>
+                 <div class="split right">
+            <div class="input-ic">
+                <i class="bi bi-upc icon" style="color: grey; font-size: 1.7em;"></i>
+                {{form.code}}
+                <br>
+                <br>
+                <i class="bi bi-cursor-text icon" style="color: grey; font-size: 1.7em;"></i>
+                {{form.description}}
+                <br>
+                <br>
+                <i class="bi bi-diagram-3-fill icon" style="color: grey; font-size: 1.7em;"></i>
+                {{ form.quantity}}
+                <br>
+                <br>
+                <i class="bi bi-building-fill  icon" style="color: grey; font-size: 1.7em;"></i>
+                {{form.area}}
+                <br>
+                <br>
+            <i class="bi bi-text-paragraph icon" style="color: grey; font-size: 1.7em;"></i>
+                {{form.details}}
+            </div>
+            <input type="submit" value="ADD ITEM" class="input-field" id="click">
+            </div>
+
+<!--            <input type="submit">-->
+
+            </form>
+
+        </div>
+    </div>
+
+
+{% endblock %}

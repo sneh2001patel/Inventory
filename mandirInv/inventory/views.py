@@ -4,14 +4,21 @@ from django.contrib.auth.models import UserManager
 from django.shortcuts import render
 from django.utils.datetime_safe import date
 from datetime import date
+from django.shortcuts import redirect
 from authencation.models import Area
-from .models import Item, Report, User, ReportTable
+from .models import Item, Report, User
+from .models import ReportTable as RT
 # from mandirInv.mandirInv import UserManager
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import CreateReport, CreateArea
+from .forms import CreateReport, CreateArea, CreateItem
 from django.urls import reverse_lazy
-from django.http import HttpResponse, Http404
+from time import time
+
+from itertools import islice
+from django.http import HttpResponse, Http404, JsonResponse
+from django.core import serializers
+import json
 
 CurrentUser = get_user_model()
 
@@ -38,7 +45,7 @@ class UserSettings(ListView):
     extra_context = {"show": True, "page": 4}
 
 
-class AddItem(CreateView):
+class AddArea(CreateView):
     template_name = "inventory/add_area.html"
     model = Area
     form_class = CreateArea
@@ -53,11 +60,8 @@ class AddItem(CreateView):
             location = location.strip()
             form.instance.name = name
             form.instance.location = location
-            return super(AddItem, self).form_valid(form)
-        return super(AddItem, self).form_invalid(form)
-
-
-
+            return super(AddArea, self).form_valid(form)
+        return super(AddArea, self).form_invalid(form)
 
 
 class UserSettingsDetails(DetailView, UpdateView):
@@ -103,18 +107,30 @@ class UserSettingsDetails(DetailView, UpdateView):
         return output
 
 
-class ReportListView(ListView):
-    model = Report
-    context_object_name = "reports"
+class ReportListView(View):
     template_name = "inventory/reportlist.html"
     areas = Area.objects.all()
     extra_context = {"show": True, "page": 3, "areas": areas}
-    # paginate_by = 5
 
-    def get_queryset(self):
-        today = date.today()
-        # return Report.objects.filter(user=usr)
-        return Report.objects.all()
+    def is_ajax(self, request):
+        return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+    def get(self, request):
+        self.extra_context = {"show": True, "page": 3, "areas": self.areas}
+        if self.is_ajax(request=request):
+            text = request.GET.get("btn_txt")
+            area_txt = text.strip()
+            area_txt = area_txt.split(", ")
+            a = Area.objects.filter(name=area_txt[0], location=area_txt[1])[0]
+            print(a)
+            data = RT.objects.filter(area=a)
+            print(data)
+            data_serial = serializers.serialize('json', data)
+            # print(data_serial)
+            # print(data_dates)
+            # data_dates = serializers.serialize('json', data_dates)
+            return JsonResponse(data_serial, safe=False)
+        return render(request, "inventory/reportlist.html", self.extra_context)
 
 
 class UserReportDetails(DetailView):
@@ -175,68 +191,165 @@ class ReportTable(LoginRequiredMixin, ListView):
 
 
 # [Indivual item page]
-class ReportDetailView(CreateView):
-    model = Item
-    form_class = CreateReport
-    template_name = "inventory/report_detail.html"
 
-    def get_context_data(self, **kwargs):
-        context = super(ReportDetailView, self).get_context_data(**kwargs)
-        self.object = Item.objects.filter(slug=self.kwargs["slug"])[0]
-        context["item"] = self.object
-        return context
+def user_report(request, slug):
+    tmp_name = "inventory/report_detail.html"
+    item = Item.objects.filter(slug=slug)[0]
+    form = CreateReport()
+    context = {
+        "form": form,
+        "item": item
+    }
 
-    def find_query_index(self, query, item):
+    def save_to_table(r):
+        # r = Report.objects.latest("uid")
+        table = RT.objects.filter(date=date.today(), area=item.area)
+        if len(table) <= 0:
+            t = RT(date=date.today(), area=item.area)
+            t.save()
+            t.reports.add(r)
+            t.save()
+        else:
+            t = table[0]
+            t.reports.add(r)
+            t.save()
+
+    def find_query_index(query, item):
         for i in range(len(query)):
             if query[i] == item:
                 return i
         return -1
 
-    def form_valid(self, form, *args, **kwargs):
-        item = self.get_object()
-        # self.success_url = "/report/" + str(item.slug)
-        area = Area.objects.filter(name=item.area.name,
-                                   location=item.area.location)[0]
-        item_list = Item.objects.filter(area=area).order_by('id')
-        index = self.find_query_index(item_list, item)
+    def get_next_url():
+        item_list = Item.objects.filter(area=item.area).order_by('id')
+        index = find_query_index(item_list, item)
         vals = item_list.values()
         n = index + 1
         if n >= len(vals):
-            self.success_url = "/report/" + item.area.name + "/" + item.area.location
+            success_url = "/report/" + item.area.name + "/" + item.area.location
         else:
             slugurl = vals[n]["slug"]
-            self.success_url = "/report/" + str(slugurl)
+            success_url = "/report/" + str(slugurl)
+        return success_url
 
-        if self.request.method == 'POST':
-            if 'perfect' in self.request.POST:
-                form.instance.user = self.request.user
+    nurl = get_next_url()
+    print(nurl)
+
+    if request.method == 'POST':
+        if 'perfect' in request.POST:
+            form = CreateReport(request.POST or None)
+            if form.is_valid():
+                form.instance.user = request.user
                 form.instance.item = item
                 form.instance.actual = item.quantity
                 form.instance.expected = item.quantity
-                print(date.today())
-                # report_table = ReportTable(area=area, date=date.today(), reports=[])
-                return super().form_valid(form)
-            if 'doesnotexist' in self.request.POST:
-                form.instance.user = self.request.user
+                form.save()
+                r = Report.objects.latest("uid")
+                save_to_table(r)
+                return redirect(nurl)
+        elif 'doesnotexist' in request.POST:
+            form = CreateReport(request.POST or None)
+            if form.is_valid():
+                form.instance.user = request.user
                 form.instance.item = item
                 form.instance.expected = item.quantity
                 form.instance.actual = 0
-                return super().form_valid(form)
-            if 'report' in self.request.POST:
-                if form.instance.actual is None:
-                    return super(ReportDetailView, self).form_invalid(form)
-                form.instance.user = self.request.user
+                form.save()
+                r = Report.objects.latest("uid")
+                save_to_table(r)
+                return redirect(nurl)
+        elif 'report' in request.POST:
+            form = CreateReport(request.POST)
+            if form.is_valid():
+                form.instance.user = request.user
                 form.instance.item = item
                 form.instance.expected = item.quantity
-                return super().form_valid(form)
-        return super(ReportDetailView, self).form_invalid(form)
+                form.save()
+                r = Report.objects.latest("uid")
+                save_to_table(r)
+                return redirect(nurl)
+    return render(request, tmp_name, context)
+
+
+def report_table(request, slug):
+    tmp_name = "inventory/report_table.html"
+    a = slug.split("_")
+    area = a[:-1]
+    date = a[-1]
+
+    res = list(islice(reversed(area), 0, 2))
+    res.reverse()
+
+    def remove_same(arr1, arr2):
+        out = []
+        for i in arr1:
+            if i not in arr2:
+                out.append(i)
+        return out
+
+    name = " ".join(remove_same(area, res))
+    location = " ".join(res)
+    a = Area.objects.filter(name=name, location=location)[0]
+    table = RT.objects.filter(area=a, date=date)[0]
+    # print(table.reports.all())
+    context = {"table": table}
+
+    if request.method == 'POST':
+        table.viewed = True
+        table.save()
+        return redirect("/reportlist/")
+    return render(request, tmp_name, context)
 
 
 class TestView(View):
 
+    def is_ajax(self, request):
+        return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
     def get(self, request):
-        text = request.GET.get("button_text")
-        print()
-        print(text)
-        print()
+        if self.is_ajax(request=request):
+            text = request.GET.get("button_text")
+            data = RT.objects.all()
+            if text == "Success":
+                a = Area.objects.filter(id=6)[0]
+                # data = RT.objects.filter(area=a)
+            data_serial = serializers.serialize('json', data)
+            # data_serial = json.loads(data_serial)
+            # data_dates = {
+            #     'dates': []
+            # }
+            # for data in data_serial:
+            #     data_dates['dates'].append(data['fields']['date'])
+            # print(data_dates)
+            # data_dates = serializers.serialize('json', data_dates)
+            return JsonResponse(data_serial, safe=False)
         return render(request, "inventory/test.html")
+
+
+def add_item(request):
+    tmp_name = "inventory/add_item.html"
+    form = CreateItem()
+    context = {
+        "form": form,
+        "show": True,
+        "page": 2
+    }
+
+    if request.method == 'POST':
+        form = CreateItem(request.POST or None)
+        if form.is_valid():
+            item = Item.objects.latest('uid')
+            form.instance.uid = int(item.uid) + 1
+            if request.user.is_admin:
+                form.instance.approved = True
+            form.save()
+
+            item = Item.objects.latest('uid')
+            actual = -1
+            expected = -1
+            report = Report(actual=actual, expected=expected, item=item, user=request.user)
+            report.save()
+
+            return redirect('/add-item/')
+
+    return render(request, tmp_name, context)

@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from authencation.views import RegisterView, LoginView, costum_logout
-from inventory.views import InventoryView, ReportTable, ReportDetailView, InventoryDetail, ReportListView, UserAreas, UserReportDetails, UserSettings, UserSettingsDetails, AddItem, TestView
+from inventory.views import InventoryView, ReportTable, InventoryDetail, ReportListView, UserAreas, UserReportDetails, UserSettings, UserSettingsDetails, AddArea, TestView
+from inventory import views
 from django.conf import settings
 
 urlpatterns = [
@@ -34,11 +35,14 @@ urlpatterns = [
     path("settings/", UserSettings.as_view(), name="settings"),
     path("settings/<str:id>/", UserSettingsDetails.as_view(), name="setting-detail"),
     # path("reportlist/<str:pk>/", UserReport.as_view(), name="reportuser-detail"),
-    path('report/<str:slug>/', ReportDetailView.as_view(), name="report-detail"),
-    path("add-area/", AddItem.as_view(), name="add-area"),
+    path('report/<str:slug>/', views.user_report, name="report-detail"),
+    path("add-area/", AddArea.as_view(), name="add-area"),
+    path("reporttable/<str:slug>", views.report_table, name='report-table'),
+    path("add-item/", views.add_item, name="add-item"),
     path('', include("main.urls")),
     path('areas/', UserAreas.as_view(), name='userareas'),
     path('test/', TestView.as_view(), name='testview')
+
 ]
 
 if settings.DEBUG:

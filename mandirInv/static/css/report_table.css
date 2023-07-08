@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --navy: #14213D;
+    --buttoncolor: #FCA311;
+    --textcolor: #000000;
+    --whitespace: #ffffff;
+    --secondary: #E5E5E5;
+
+
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    /* font-size: 22px; */
+}
+
+h1 {
+    font-size: 60px;
+    color: var(--navy)
+}
+
+.main {
+    margin: 30px;
+    /* margin-left: 100px; */
+}
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+
+}
+
+table td,
+table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: var(--navy);
+    color: var(--buttoncolor);
+}
+.no {
+    background-color: #e16464;
+    color: white;
+}
+
+.submitquant {
+    /* padding: 100px; */
+    width: 49%;
+    background-color: var(--buttoncolor);
+}
+
+.submitquant:hover {
+    background-color: white;
+}
+
+
+input[type=submit],
+select {
+    background-color: var(--buttoncolor);
+    border: 2px solid var(--buttoncolor);
+    width: 100%;
+    border-radius: 12px;
+    padding: 14px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px;
+    margin-top: 5%;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: white;
+    color: var(--buttoncolor);
+    border: 2px solid var(--buttoncolor);
+}

@@ -9,6 +9,10 @@ class Area(models.Model):
     def __str__(self):
         return self.name
 
+    def get_together(self):
+        tmp = self.name + " " + self.location
+        return tmp.replace(" ", "_")
+
     class Meta:
         unique_together = ('name', 'location',)
 

@@ -1,0 +1,63 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block style %}
+<link rel="stylesheet" href='{% static "css/report_table.css" %}'/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+{% endblock %}
+{% block title %}INVENTORY | REPORT TABLE {% endblock %}
+
+{% block content %}
+  <div class="container">
+        <div class="main">
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Item</th>
+            <th>User</th>
+            <th>Area</th>
+            <th>Expected Quantity</th>
+            <th>Actual Quantity</th>
+            <th>New Item</th>
+            <th>Delete Item</th>
+        </tr>
+
+        {% for r in table.reports.all %}
+        <tr>
+
+        <td>{{r.date }}</td>
+        <td>{{r.item}}</td>
+        <td>{{r.user.full_name}}</td>
+        <td>{{r.item.area}}</td>
+        <td>{{r.expected}}</td>
+        <td>{{r.actual}}</td>
+        <td>No</td>
+        {% if not r.actual %}
+            <td class="no">Yes</td>
+        {% else %}
+            <td>No</td>
+        {% endif %}
+        </tr>
+
+
+
+        {% endfor %}
+
+
+
+    </table>
+        </div>
+      <form method="post">
+        {% csrf_token %}
+        {% if not table.viewed %}
+        <input type="submit" value="Approved" class="submitquant submitbtn">
+        {% else %}
+        <input type="submit" value="Approved" disabled style="background-color: #ccc; border:none; " class="submitquant submitbtn">
+         {%endif %}
+
+      </form>
+      <br>
+      <br>
+    </div>
+
+{% endblock %}

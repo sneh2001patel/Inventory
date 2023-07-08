@@ -21,12 +21,12 @@
 {% if show %}
     <div class="navbar">
         <div class="input-icons">
-            <i class="bi fa-3x  bi-house{% if page == 0 %}-fill {%endif%}" id="navicon"></i>
-            <i class="bi fa-3x bi-geo-alt{% if page == 1 %}-fill {%endif%}" id="navicon"></i>
-            <i class="bi fa-3x bi-plus-circle{% if page == 2 %}-fill {%endif%}" id="navicon"></i>
-            <i class="bi fa-3x bi-book{% if page == 3 %}-fill {%endif%}" id="navicon"></i>
-            <i class="bi fa-3x bi-gear{% if page == 4 %}-fill {%endif%}" id="navicon"></i>
-            <i class="bi fa-3x bi-box-arrow-right" id="navicon"></i>
+            <a href="{% url 'userareas' %}"><i class="bi fa-3x  bi-house{% if page == 0 %}-fill {%endif%}" id="navicon"></i></a>
+            <a href="{% url 'add-area' %}"><i class="bi fa-3x bi-geo-alt{% if page == 1 %}-fill {%endif%}" id="navicon"></i></a>
+            <a href="{% url 'add-item' %}"><i class="bi fa-3x bi-plus-circle{% if page == 2 %}-fill {%endif%}" id="navicon"></i></a>
+            <a href="{% url 'report-list' %}"><i class="bi fa-3x bi-book{% if page == 3 %}-fill {%endif%}" id="navicon"></i></a>
+            <a href="{% url 'settings' %}"><i class="bi fa-3x bi-gear{% if page == 4 %}-fill {%endif%}" id="navicon"></i></a>
+            <a href="{% url 'logout' %}"><i class="bi fa-3x bi-box-arrow-right" id="navicon"></i></a>
             <div class="navdis"></div>
         </div>
     </div>

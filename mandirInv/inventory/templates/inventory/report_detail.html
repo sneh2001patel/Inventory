@@ -66,9 +66,10 @@
             <br>
             <div class="input-icons" id="mismatch">
                 <i class="bi bi-diagram-3-fill fa-2x icon" style="color: var(--navy);"></i>
-                <input class="input-field" name="actual" type="text" placeholder="Actual Quantity">
+                {{form.as_p}}
+<!--                <input class="input-field" name="actual" type="text" placeholder="Actual Quantity">-->
                 <div class="reportbtn">
-                    <input type="submit" name="report" value="SUBMIT" class="submitquant submitbtn">
+                    <input type="submit" id="sbtbtn" name="report" disabled value="SUBMIT" class="submitquant submitbtn">
                     <button style="color:var(--buttoncolor); border: 3px solid var(--buttoncolor);" class="cancelquant submitbtn" type="button" onclick="apear()">CANCEL</button>
                     <!-- <type="submit" value="CANCEL" style="color:var(--buttoncolor); border: 3px solid var(--buttoncolor);" class="cancelquant submitbtn"> -->
                 </div>
@@ -82,7 +83,14 @@
 {%block script%}
 
 <script>
+    function success() {
+	   if(document.getElementById("textsend").value==="") {
 
+            document.getElementById('sbtbtn').disabled = true;
+        } else {
+            document.getElementById('sbtbtn').disabled = false;
+        }
+    }
 
 
     function apear() {
@@ -99,10 +107,6 @@
         } else {
          cat.style.display = "block";
         }
-
-
-
-
     }
 
 </script>

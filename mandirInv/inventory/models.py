@@ -18,6 +18,7 @@ class Item(models.Model):
     quantity = models.IntegerField()
     code = models.CharField(max_length=5)
     area = models.ForeignKey(Area, null=True, on_delete=models.SET_NULL)
+    approved = models.BooleanField(default=False)
     slug = models.CharField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
@@ -41,7 +42,8 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.date)
+        string = str(self.date) + ": " + str(self.uid)
+        return string
 
     def get_absolute_url(self):
         return reverse('report-detail', kwargs={'pk': self.pk})
@@ -52,6 +54,10 @@ class ReportTable(models.Model):
     date = models.DateField()
     reports = models.ManyToManyField(Report(), blank=True)
     viewed = models.BooleanField(default=False)
+
+    def __str__(self):
+        string = str(self.area.name) + " " + str(self.date)
+        return string
 
     class Meta:
         constraints = [

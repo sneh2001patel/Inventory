@@ -18,7 +18,7 @@
                         <h4> {{area}}, {{area.location}}</h4>
                         <i class="bi bi-caret-down-fill"></i>
                     </div>
-                   <div class="all_dates" id="{{area}}, {{area.location}}">
+                   <div class="all_dates {{ area.get_together }}" id="{{area}}, {{area.location}}">
                     </div>
                     {% endfor %}
 
@@ -28,22 +28,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='{% static "js/reportlist.js" %}'></script>
 <script>
-    function dates(area_date) {
-    {% for report in reports %}
-        var date = '{{ report }}'
-        var dt = new Date(date)
-        dt = dt.toLocaleDateString("en-EN", {
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        })
 
-         area_date.innerHTML +=
-                ' <div class="dates unopened">' +
-                '<h5>'+ dt +'</h5>' +
-                '</div>';
-    {% endfor %}
-}
+
+
 </script>
 
 
