@@ -1,0 +1,86 @@
+
+:root {
+    --navy: #14213D;
+    --buttoncolor: #FCA311;
+    --textcolor: #000000;
+    --whitespace: #ffffff;
+    --secondary: #E5E5E5;
+
+
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    /* font-size: 22px; */
+}
+
+h1 {
+    font-size: 60px;
+    color: var(--navy)
+}
+
+.main {
+    margin: 30px;
+    margin-left: 100px;
+}
+
+.input-ic i {
+    position: absolute;
+}
+
+.input-ic {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.icon {
+    color: var(--secondary);
+    padding: 10px;
+    min-width: 40px;
+}
+
+.input-field {
+
+    width: 95%;
+    padding: 10px;
+    padding-left: 40px;
+    text-align: left;
+    font-size: 22px;
+    /* border-radius: 15px; */
+    border: 2px solid var(--secondary);
+    border-radius: 8px;
+}
+
+input[type=submit],
+select {
+    background-color: var(--buttoncolor);
+    border: 2px solid var(--buttoncolor);
+    width: 100%;
+    border-radius: 12px;
+    padding: 14px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px;
+    margin-top: 5%;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: white;
+    color: var(--buttoncolor);
+    border: 2px solid var(--buttoncolor);
+}
+
+.submitquant {
+    /* padding: 100px; */
+    width: 49%;
+    background-color: var(--buttoncolor);
+}
+
+.submitquant:hover {
+    background-color: white;
+}
