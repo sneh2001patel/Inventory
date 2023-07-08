@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'mandirinventory'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_57B28034722A441C952D66A6D1D26483 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0237189F91B94653A76697F0E07F918B }}
